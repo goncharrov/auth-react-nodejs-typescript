@@ -1,0 +1,45 @@
+/* login form styles */
+
+.loginForm {
+    /* visibility: hidden; */
+    max-width: 328px;
+    min-width: 280px;
+    width: 100%;     
+    padding: 8px 16px;
+    margin: 8px;
+    background-color: var(--blue-lite);
+    border-radius: 16px; 
+       
+    /* top: 150px; */
+    position: absolute; 
+}
+
+.loginForm.active {
+    display: block;
+}
+
+.elements {
+    padding: 0 8px;
+}
+
+.loginLogo {
+    margin: 16px 0 8px 0;    
+    text-align: center;
+}
+
+.loginForm p {
+    text-align: center;
+    color: var(--font-color);
+}
+
+.loginTitle {
+    margin: 8px 0 16px 0;    
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.separatorOr {
+    margin: 8px 0 8px 0;   
+    font-size: 18px;
+    font-weight: 400;
+}

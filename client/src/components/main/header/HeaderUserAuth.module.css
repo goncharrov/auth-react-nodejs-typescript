@@ -1,0 +1,28 @@
+.headerAuth {
+   padding: 2px;
+}
+
+.headerAuthButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 100%;
+    border: solid #4E4E4E 1px;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.headerAuthSvg {
+    width: 32px;
+    margin: 2px;
+}
+
+@media screen and (max-width: 550px) {
+
+    .headerAuthSvg {
+        width: 28px;
+    }
+
+}

@@ -1,0 +1,60 @@
+.contactDataField {
+    background-color: var(--blue-lite);
+    border-radius: 8px;
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+.contactDataButtonBack {
+    height: 40px;
+    width: 100%;
+    text-align: left;    
+    padding: 12px 16px 0 16px;        
+}
+
+.contactDataButtonBack img {
+    width: 28px;
+}
+
+.contactDataButtonBack:hover {
+    cursor: pointer;
+}
+
+.contactDataButtonBack img {
+    width: 28px;    
+}
+
+.contactDataFieldIcon img {
+    width: 48px;
+}
+
+.contactDataFieldTitle {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--black-amazon-lite);
+    margin: 8px auto;
+}
+
+.contactDataFieldDescription {
+    display: flex;
+    justify-content: center;
+    max-width: 264px;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--font-color);
+    margin: 8px auto;
+    line-height: 1.5;
+}
+
+.forgotPassword {
+    font-size: 15px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 16px;
+    color: var(--font-color);
+}
+
+.forgotPassword span {
+    text-decoration: underline;
+    cursor: pointer;
+}

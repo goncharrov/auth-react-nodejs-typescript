@@ -1,0 +1,127 @@
+.userAccountButtonWrapper {
+    position: relative;  
+    height: 100%;
+    width: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+.userAccountButtonWrapper.active {
+    background-color: #EBECF0;
+}
+
+.userAccountButton button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: solid #4E4E4E 1px;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.userAccountButton button.active {
+    background-color: #EBECF0;
+}
+
+.userAccountButtonImg {
+    width: 36px;
+    margin: 2px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+}
+
+.userAccountDropdownMenu {
+    position: absolute;
+    top: calc(100% + 1px);
+    right: 0;
+    min-width: 220px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.userAccountDropdownMenu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.userAccountDropdownMenu ul {
+    list-style: none;
+    padding: 4px 0;
+}
+
+.userAccountDropdownMenu li {
+    line-height: 20px;
+	padding: 8px 8px 8px 8px;
+}
+
+.userAccountDropdownMenu li:hover {
+    background: var(--grey-lite);
+    cursor: pointer;
+}
+
+.userAccountDropdownMenuListImg {
+    width: 20px;
+    margin-right: 12px;
+}
+
+.userAccountDropdownMenulistItem {
+    display: flex;
+    align-items: center;
+    font-size: 15px; 
+    font-weight: 400;
+    color: var(--font-color);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.userAccountDropdownMenulistItem.logout {
+    font-weight: 500;
+}
+
+.userAccountDropdownMenuUserData {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.userAccountDropdownMenuUserData > .userImg {
+    width: 64px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+}
+
+.userAccountDropdownMenuUserData span {
+    margin: 8px 0 4px 0;
+    font-size: 16px; 
+    font-weight: 500;
+    color: var(--font-color);
+}
+
+@media screen and (max-width: 550px) {
+
+    .userAccountButtonWrapper {
+        margin-right: 0;
+        width: 48px;
+    }
+
+    .userAccountButtonImg {
+        width: 28px;
+        margin: 2px;
+    }
+
+}

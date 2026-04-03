@@ -1,0 +1,71 @@
+/* password form styles */
+
+.passForm {
+    max-width: 328px;
+    min-width: 280px;
+    width: 100%;     
+    padding: 8px 16px;
+    margin: 8px;
+    background-color: var(--blue-lite);
+    border-radius: 16px; 
+       
+    top: 150px;
+    position: absolute; 
+}
+
+.passForm.active {
+    display: block;
+}
+
+.arrowImg {
+    width: 32px;
+    transform: rotate(90deg);
+    display: flex;
+    align-items: center;
+}
+
+.passLogo {
+    margin: 16px 0 8px 0;    
+    text-align: center;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.passTitle {
+    font-weight: 400;
+    text-align: center;
+    margin: 8px 0 16px 0;        
+}
+
+.passTitle1 {
+    font-size: 16px;
+    color: var(--font-color);
+    margin-bottom: 4px;
+}
+
+.passTitle2 {
+    font-size: 16px;
+    color: var(--black);  
+    overflow-wrap: break-word;  
+}
+
+.elements {
+    padding: 0 8px;
+}
+
+.question {
+    text-align: left;
+    margin-bottom: 32px;
+    color: var(--button-color);
+}
+
+@media screen and (max-width: 360px) {
+
+    .passForm {  
+        padding: 8px;
+        margin: 8px;
+    }
+
+}

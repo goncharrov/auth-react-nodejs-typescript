@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700&subset=cyrillic');
+
+:root {
+    --blue-lite: #DEE4FD;
+    --font-color: #4E4E4E;
+    --grey-lite: #F7F7F7;
+    --grey-line: #B0B0B0;
+    --grey-arrow: #6E6E6E; 
+    --grey-button: #F1F1F5; 
+    --button-color: #0D77EB;
+    --black: #131921;
+    --black-amazon: #131921;
+    --black-amazon-lite: #232F3E; 
+    --validation: #D30D2E;
+    --select-color: #C7D2FD;    
+}
+
+* {
+	margin: 0;
+	padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', 'Arial', sans-serif;
+    font-size: 15px;
+    background-color: #fff;
+}

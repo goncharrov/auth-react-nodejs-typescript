@@ -1,0 +1,70 @@
+/* code form styles */
+
+.codeForm {
+    max-width: 328px;
+    min-width: 280px;
+    width: 100%;     
+    padding: 8px 16px;
+    margin: 8px;
+    background-color: var(--blue-lite);
+    border-radius: 16px; 
+       
+    top: 150px;
+    position: absolute; 
+}
+
+.codeForm p {
+    text-align: center;
+    margin: 8px 0 8px 0;
+    color: var(--font-color);
+}
+
+.codeForm.active {
+    display: block;
+}
+
+.arrowImg {
+    width: 32px;
+    transform: rotate(90deg);
+    display: flex;
+    align-items: center;
+}
+
+.codeLogo {
+    margin: 16px 0 8px 0;    
+    text-align: center;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.codeTitle {
+    font-weight: 400;
+    text-align: center;
+    margin: 8px 0 16px 0;        
+}
+
+.codeTitle1 {
+    font-size: 16px;
+    color: var(--font-color);
+    margin-bottom: 4px;
+}
+
+.codeTitle2 {
+    font-size: 16px;
+    color: var(--black);  
+    overflow-wrap: break-word;  
+}
+
+.elements {
+    padding: 0 8px;
+}
+
+.codeCounter {
+    font-size: 15px;
+    font-weight: 400;
+    text-align: right;
+    margin-bottom: 16px;
+    color: var(--font-color);
+}

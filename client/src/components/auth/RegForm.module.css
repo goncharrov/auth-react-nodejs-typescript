@@ -1,0 +1,109 @@
+.registrationForm {
+    max-width: 424px;
+    min-width: 320px; 
+    width: 100%;
+    padding: 8px 24px;
+    background-color: var(--blue-lite);
+    border-radius: 16px; 
+    margin: 8px;
+    
+    position: absolute; 
+}
+
+.logo {
+    margin: 16px 0 8px 0;    
+    text-align: center;
+}
+
+.registrationForm p {
+    text-align: center;
+    color: var(--font-color);
+}
+
+.title {
+    text-align: center;
+    margin: 8px 0 16px 0;
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--font-color);    
+}
+
+/* inputs wrappers - start */
+
+.doubleInputGroup {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 8px;
+}
+
+.doubleInputElement {
+    flex-basis: 50%;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+/* inputs wrappers - end */
+
+.buttonRegistration {
+    display: block;
+    height: 40px;
+    width: 100%;
+    margin: 24px 0 16px 0; 
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 16px;    
+    border: none;
+    color: #fff;
+    background-color: var(--button-color);  
+}
+
+.buttonRegistration:hover {
+    cursor: pointer;
+}
+
+.thereIsAccount {
+    display: flex;
+    justify-content: flex-start;
+    margin: 16px 0;
+}
+
+.thereIsAccount span {
+    color: var(--font-color);
+}
+
+.switchToSignForm {
+    color: var(--button-color);
+    margin-left: 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 420px) {
+    
+    .registrationForm {
+        padding: 8px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    /* inputs wrappers - start */
+
+    .doubleInputGroup {
+        flex-wrap: wrap;
+        gap: 0;
+    }
+    
+    .doubleInputElement {
+        flex-basis: 100%;
+    }
+
+    /* inputs wrappers - end */
+
+    button {
+        font-size: 16px;    
+    }
+
+}

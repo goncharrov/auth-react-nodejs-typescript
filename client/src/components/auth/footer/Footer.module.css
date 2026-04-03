@@ -1,0 +1,42 @@
+.footer {
+    height: 48px;
+    background-color: #232F3E; 
+    box-sizing: content-box;
+    
+    min-width: 280px;
+    width: 100%;
+
+    position: fixed;
+    bottom: 0;
+}
+
+.footerItems {
+    max-width: 1880px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 24px;    
+    color: #fff;
+    font-size: 16px;
+}
+
+.footerItems a {
+    color: #fff;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 550px) {
+
+    .footerItems {
+        padding: 0 8px;
+        font-size: 13px;
+        font-weight: 400;  
+    }
+
+    .footerItems a {   
+        padding: 0; 
+    }
+
+}  

@@ -1,0 +1,66 @@
+/* user notion */
+
+.userPhotoName, .userPhotoNameLarge {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.userPhotoNameLarge {
+    padding: 0 8px;
+    margin-bottom: 24px;
+}
+
+.userPhotoName:hover {
+    border-radius: 8px;    
+    background-color: var(--grey-lite);
+    cursor: pointer;
+}
+
+.userPhotoNameContent {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: var(--font-color);
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.imgUserPhoto {
+    margin: 8px;
+    width: 48px;
+    border-radius: 50%;
+}
+
+.userPhotoNameContent > .userNameLarge {
+    font-size: 22px;
+    font-weight: 500;
+    margin-left: 8px;
+}
+
+.imgArrow {
+    margin-right: 8px;
+    width: 28px;
+    transform: rotate(-90deg);
+}
+
+@media (max-width: 936px) {
+
+    .userPhotoNameLarge {
+        padding: 0;
+        margin-bottom: 8px;
+    }
+
+}
+
+@media (max-width: 624px) {
+
+    .imgUserPhoto {
+        margin-left: 0;
+    }
+
+    .imgArrow {
+        margin-right: 0;
+    }
+
+}

@@ -1,0 +1,46 @@
+.userDataItems {
+    display: flex;
+    flex-wrap: wrap;
+	justify-content: flex-start;
+    padding: 0 8px; 
+}
+
+.userDataItem {
+    flex-basis: 50%;    
+    text-align: left;
+    padding: 8px 12px;    
+    display: block; 
+}
+
+.userDataButtonSubmit {
+    padding: 16px 24px;
+}
+
+@media (max-width: 936px) {
+
+    .userDataItem {
+        padding: 8px;   
+    }
+
+    .userDataButtonSubmit {
+        padding: 16px;
+    }
+
+}
+
+@media (max-width: 624px) {
+
+    .userDataItems {
+        padding: 0;   
+    }
+
+    .userDataItem {
+        flex-basis: 100%; 
+        padding: 8px 0;   
+    }
+
+    .userDataButtonSubmit {
+        padding: 16px 0;
+    }
+
+}

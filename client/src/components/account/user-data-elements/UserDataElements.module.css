@@ -1,0 +1,61 @@
+.userDataElement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0; 
+}
+
+.userDataElement:hover {
+    border-radius: 8px;    
+    background-color: var(--grey-lite);
+    cursor: pointer;
+}
+
+.userDataValue {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;   
+}
+
+.userDataValue img {
+    width: 28px;
+    margin: 8px;
+}
+
+.userDataValue span {
+    margin-left: 8px;
+    color: var(--font-color);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.userDataEdit {
+    margin-right: 16px;
+    color: var(--button-color);
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.imgArrow {
+    margin-right: 8px;
+    width: 28px;
+    transform: rotate(-90deg);
+}
+
+@media (max-width: 624px) {
+
+    .userDataValue span {
+        font-size: 16px;
+    }
+
+    .userDataEdit {
+        margin-right: 8px;
+    }
+
+    .imgArrow {
+        margin-right: 0;
+    }
+
+}

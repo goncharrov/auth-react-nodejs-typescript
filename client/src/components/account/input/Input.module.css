@@ -1,0 +1,75 @@
+.inputGroup {
+    display: flex;
+    flex-direction: column;   
+}
+
+label {
+    font-weight: 400;
+    margin-bottom: 6px;
+    color: var(--font-color);
+    font-size: 16px;
+}
+
+.inputElement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+
+    height: 40px; 
+    width: 100%;
+    padding: 8px;    
+    border: 1px solid var(--grey-line);
+    border-radius: 8px;
+    background-color: #fff;
+    transition: border-color 0.2s ease;
+}
+
+.inputElement:focus {
+    outline: none;
+}
+
+.inputElement:focus-within {
+    border-color: var(--button-color);
+    /* box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); */
+}
+
+.inputElement input {
+    height: 100%; 
+    width: 100%;   
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--font-color);   
+}
+
+.inputElement input:focus {
+    outline: none;    
+}
+
+.inputElementIcon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.inputElementIcon img {
+    width: 100%;
+    height: 100%;   
+}
+
+/* validation */
+
+.validation {
+    margin-top: 8px;
+    color: var(--validation);
+    font-size: 15px;
+}
+
+
+@media (max-width: 624px) {
+    
+    .inputElement input {
+        font-size: 15px;
+    }
+
+}

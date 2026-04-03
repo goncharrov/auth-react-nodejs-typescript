@@ -1,0 +1,113 @@
+.selectorGroup {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.selectorLabel {
+    font-weight: 400;
+    margin-bottom: 6px;
+    color: var(--font-color);
+    font-size: 16px;
+}
+
+/* Group selector date */
+
+.dateOfBirth {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%; 
+    gap: 8px;
+}
+
+.birthDate {
+    max-width: 64px;
+    width: 100%;
+}
+
+.birthMonth {
+    width: auto;
+    flex-grow: 1;    
+}
+
+.birthYear {
+    max-width: 88px;
+    width: 100%;
+}
+
+/* Selection field */
+
+.selectorField {
+    background-color: #fff;
+    width: 100%;
+    height: 40px;
+    display: flex;       
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--grey-line);
+    border-radius: 8px;
+    font-size: 16px;
+    color: var(--font-color);    
+ 
+    padding: 0 4px 0 8px;
+    cursor: pointer;
+}
+
+.selectorArrow {
+    width: 24px;
+    height: 24px;    
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+
+.selectorMenu {
+    display: none;    
+    position: absolute;	
+    top: 100%;    
+    width: 100%;
+    margin-top: 1px;  
+    padding-bottom: 4px;        
+    border: 1px solid var(--grey-line);
+    border-top: 0; 
+    border-radius: 0 0 8px 8px;
+    background-color: #fff; 
+    max-height: 160px;
+    overflow-y: auto;
+    transition: .4s linear .2s;
+
+    z-index: 1000;
+}
+
+.selectorGroup.open .selectorMenu {
+    display: block;    
+}
+
+.selectorGroup.open .selectorField {
+    border-radius: 8px 8px 0 0;   
+}
+
+.selectorMenu li {
+    font-size: 16px; 
+    font-weight: 400;
+    color: var(--font-color);
+	line-height: 20px;
+	padding: 8px 8px 8px 12px;
+}
+
+.selectorMenu li:hover {
+    background: var(--grey-lite);
+    background: #F3F3F3;
+    cursor: pointer;
+}
+
+.selectorMenu::-webkit-scrollbar {
+    width: 4px;
+    background-color: #eee;
+}
+
+.selectorMenu::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}

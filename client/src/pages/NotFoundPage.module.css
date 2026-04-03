@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    min-height: 100vh;    
+}
+
+.container h1, p, a {
+    color: var(--font-color);
+}
+
+.container h1 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.container p {
+    font-size: 18px;
+    font-weight: 400;
+}

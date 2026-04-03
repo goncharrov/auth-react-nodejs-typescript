@@ -1,0 +1,16 @@
+.headerLogo a {
+    display: flex;
+    align-items: center;
+}
+
+.headerLogo img {
+    width: 88px;
+}
+
+@media screen and (max-width: 550px) {
+
+    .headerLogo img {
+        width: 76px;
+    }
+
+}

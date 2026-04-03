@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    // File Layout
+    "rootDir": "./src",
+    "outDir": "./build",
+
+    // Environment Settings
+    "target": "ES2022",
+    "module": "NodeNext", 
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true, 
+    "forceConsistentCasingInFileNames": true,
+    
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    // Other Outputs
+    "sourceMap": true,
+    "declaration": true,
+
+    // Recommended Options
+    "strict": true,
+    "skipLibCheck": true,
+  },
+"include": ["src/**/*"],
+"exclude": ["node_modules", "build"]
+}

@@ -1,0 +1,28 @@
+/* button */
+
+.button {
+    display: block;
+    height: 40px;
+    width: 100%;
+    margin: 16px 0; 
+    border-radius: 8px;
+    letter-spacing: 0.20px;
+    font-weight: 500;
+    font-size: 16px;    
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.buttonBlue {
+    border: none;
+    color: #fff;
+    background-color: var(--button-color);    
+}
+
+.buttonWhite {
+    border: 1px solid var(--button-color);
+    color: var(--font-color);
+    background-color: #fff; 
+}

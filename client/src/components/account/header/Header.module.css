@@ -1,0 +1,37 @@
+.header {
+    height: 64px;
+    background-color: #fff;  
+    
+    box-sizing: content-box;
+    border-bottom: solid #99ABD7 1px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;       
+}
+
+.headerWrapper {
+    margin: 0 auto;
+    padding: 0 16px;
+    height: 100%;
+}
+
+.headerItems {    
+    max-width: 936px;
+    min-width: 320px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    margin: 0 auto;
+}
+
+@media (max-width: 624px) {
+
+    .headerWrapper {
+        padding: 0 8px;
+    }
+
+}

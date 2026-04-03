@@ -1,0 +1,36 @@
+.blueButton, .saveButton {
+    height: 40px;    
+    background-color: var(--button-color);    
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    letter-spacing: 0.20px;
+    font-size: 16px;
+    font-weight: 500;    
+    cursor: pointer;
+}
+
+.saveButton:hover {
+	opacity: 0.9;
+}
+
+.saveButton:active {
+    position: relative;
+	top: 1px;
+}
+
+.buttonWidth136 {
+    width: 136px; 
+}
+
+.buttonWidth152 {
+    width: 152px; 
+}
+
+@media (max-width: 624px) {
+
+    .blueButton, .saveButton {
+        width: 100%;    
+    }
+
+}

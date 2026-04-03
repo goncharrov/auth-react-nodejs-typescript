@@ -1,0 +1,12 @@
+.codeCounter {
+    font-size: 15px;
+    font-weight: 400;
+    text-align: right;
+    margin-bottom: 16px;
+    color: var(--font-color);
+}
+
+.getNewCode {
+    text-decoration: underline;
+    cursor: pointer;
+}
