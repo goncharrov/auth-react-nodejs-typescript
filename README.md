@@ -27,7 +27,9 @@
 
 Авторизация пользователя
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-1.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-1.jpg) -->
+
+<img src="https://drive.google.com/file/d/1voOblBqRfpXG72-1mRC_3nieQKkeMD6D/view?usp=drive_link" width="800" height="425" alt="">
 
 Регистрация пользователя
 
