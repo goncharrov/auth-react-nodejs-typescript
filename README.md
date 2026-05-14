@@ -27,63 +27,85 @@
 
 Авторизация пользователя
 
-<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-1.jpg) -->
-
-<!-- <img src="https://drive.google.com/file/d/1voOblBqRfpXG72-1mRC_3nieQKkeMD6D/view?usp=drive_link" width="800" height="425" alt=""> -->
-
 <image src="/.images/auth-react-1.jpg" width="800" height="425" alt="">
 
 Регистрация пользователя
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-2.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-2.jpg) -->
+
+<image src="/.images/auth-react-2.jpg" width="800" height="425" alt="">
 
 При авторизации пользователя выполняется поиск пользователя по e-mail в базе данных
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-3.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-3.jpg) -->
+
+<image src="/.images/auth-react-3.jpg" width="800" height="425" alt="">
 
 Если e-mail найден, возможна аутентификация по коду, отправленному на email (функционал реализован только в части записи кода в базу данных), либо паролю.
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-4.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-4.jpg) -->
+
+<image src="/.images/auth-react-4.jpg" width="800" height="425" alt="">
 
 По умолчанию для удобства тестирования, так как не добавлен функционал отправки писем на e-mail, значение кода во всем приложении установлено **5555**.  
 В рабочем варианте значение кода устанавливается методом **random()**.
 
-![Screen|800x425](https://ruproject.org/media/files/2026/04/03/auth-react-ts-5.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/04/03/auth-react-ts-5.jpg) -->
+
+<image src="/.images/auth-react-5.jpg" width="800" height="425" alt="">
 
 Главная страница приложения
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-6.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-6.jpg) -->
+
+<image src="/.images/auth-react-6.jpg" width="800" height="425" alt="">
 
 Профиль пользователя
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-7.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-7.jpg) -->
+
+<image src="/.images/auth-react-7.jpg" width="800" height="425" alt="">
 
 Пример изменения e-mail пользователя.  
 На первом этапе требуется подтвердить доступ к текущему e-mail пользователя. 
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-8.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-8.jpg) -->
+
+<image src="/.images/auth-react-8.jpg" width="800" height="425" alt="">
 
 На втором этапе указывается новый e-mail пользователя. 
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-9.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-9.jpg) -->
+
+<image src="/.images/auth-react-9.jpg" width="800" height="425" alt="">
 
 На третьем этапе требуется подтвердить доступ к новому e-mail пользователя.  
 При указании некорректной информации выводится сообщение об ошибке.
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-10.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-10.jpg) -->
+
+<image src="/.images/auth-react-10.jpg" width="800" height="425" alt="">
 
 Подтверждение доступа к новому e-mail пользователя.
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-11.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-11.jpg) -->
+
+<image src="/.images/auth-react-11.jpg" width="800" height="425" alt="">
 
 Возврат на основную страницу профиля пользователя.
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-12.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-12.jpg) -->
+
+<image src="/.images/auth-react-12.jpg" width="800" height="425" alt="">
 
 Страница ввода персональных данных пользователя.
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-13.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-13.jpg) -->
+
+<image src="/.images/auth-react-13.jpg" width="800" height="425" alt="">
 
 Страница изменения пароля пользователя.
 
-![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-14.jpg)
+<!-- ![Screen|800x425](https://ruproject.org/media/files/2026/02/12/auth-react-14.jpg) -->
+
+<image src="/.images/auth-react-14.jpg" width="800" height="425" alt="">
