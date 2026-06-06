@@ -1,0 +1,70 @@
+.userContactElement {
+   width: 100%;
+   height: 56px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   color: var(--font-color);
+   font-size: 20px;
+   font-weight: 400;
+
+   margin-top: 8px;
+   padding: 8px 0;
+}
+
+.userContactElement:hover {
+   border-radius: 8px;
+   background-color: var(--grey-lite);
+   cursor: pointer;
+}
+
+.userContactCategory {
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+}
+
+.userContactCategory img {
+   width: 28px;
+   margin: 8px;
+}
+
+.userContactContent {
+   margin-left: 8px;
+}
+
+.contactTitle {
+   height: 24px;
+   color: var(--black-amazon-lite);
+   font-size: 15px;
+   font-weight: 400;
+}
+
+.contactValue {
+   height: 16px;
+   color: var(--font-color);
+   font-size: 16px;
+   font-weight: 300;
+}
+
+.userContactEdit {
+   margin-right: 8px;
+   color: var(--button-color);
+   font-size: 16px;
+   font-weight: 500;
+   text-decoration: none;
+   cursor: pointer;
+}
+
+.imgArrow {
+   margin-right: 0;
+   width: 28px;
+   transform: rotate(-90deg);
+}
+
+/* Tablet ≥ 576px */
+@media screen and (min-width: 576px) {   
+   .contactTitle { font-size: 16px; }
+   .userContactEdit { margin-right: 16px; }   
+   .imgArrow { margin-right: 8px; }
+}

@@ -4,7 +4,7 @@
 
 ## Технологии
 
-- **Frontend**: React + TypeScript + Vite (сборка в `client/dist`)
+- **Frontend**: React + TypeScript + Vite + Axios (сборка в `client/dist`)
 - **Backend**: Node.js + Express + TypeScript (сборка в `server/build`, запуск `node build/index.js`)
 - **DB**: PostgreSQL
 - **ORM**: TypeORM (в приложении)
@@ -17,6 +17,23 @@
 - `server/` — backend (Express/TS)
 - `docker-compose.yml` — оркестрация сервисов (postgres + server + client)
 - `.env.example` — пример переменных окружения
+
+## Архитектура
+
+И клиент, и сервер организованы по принципу **feature-first**: код группируется по функциональным модулям, а не по техническим слоям. Каждый модуль изолирован и содержит только то, что к нему относится.
+
+**Клиент** (`client/src`):
+   auth/            — аутентификация (компоненты, контекст, http, типы, страницы)
+   account/         — профиль пользователя
+   home/            — главная страница
+   shared/          — общие компоненты, хуки, утилиты, ассеты
+
+**Сервер** (`server/src`):
+   app_auth/         — аутентификация (роуты, контроллер, логика, сущности)
+   app_user_account/ — профиль пользователя
+   config/           — подключение к БД
+   core/             — агрегация роутов
+   middlewares/      — общие middlewares
 
 ## Старт приложения
 

@@ -1,20 +1,24 @@
-import { Fragment } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { Fragment, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { initCsrf } from './shared/http/axiosInstance';
 
-import NotFoundPage from '@pages/NotFoundPage';
+import NotFoundPage from '@shared/pages/NotFoundPage';
 
-import Home from '@pages/home/Home';
-import Auth from '@pages/auth/Auth';
-import Reg from '@pages/reg/Reg';
+import Home from '@home/pages/Home';
+import Auth from '@auth/pages/Auth';
+import Reg from '@auth/pages/Reg';
 
-import Account from '@pages/account/Account';
-
-import AccountMain from '@pages/account/AccountMain';
-import AccountDetails from '@pages/account/AccountDetails';
-import AccountSecurity from '@pages/account/AccountSecurity';
+import Account from '@account/pages/Account';
+import AccountMain from '@account/pages/AccountMain';
+import AccountDetails from '@account/pages/AccountDetails';
+import AccountSecurity from '@account/pages/AccountSecurity';
 
 function App() {
+
+   useEffect(() => {
+      initCsrf();
+   }, []);
+
    return (
       <Fragment>
          <Router>

@@ -1,23 +1,38 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import { AppDataSource } from '../config/database.js';
-import { Users } from '../app_auth/authEntities.js';
+import bcrypt from 'bcryptjs';
+import { AppDataSource } from '@config/database.js';
+import { Users } from '@auth/authEntities.js';
 
 import {
    makeStringCapitalized,
-   getUserDataForSession,
+   getUserData,
    writeUserVerificationCode,
    verifyUserVerificationCode,
    deleteVerificationCode,
    getUserFromSession,
-} from '../app_auth/authLogic.js';
-
-const userRepo = AppDataSource.getRepository(Users);
+} from '@auth/authLogic.js';
 
 // -------------------------- saveUserData --------------------------
 
 export async function saveUserData(req: Request, res: Response) {
    try {
+
+      // Let's check if the user is authenticated.
+      const resultUserFromSession = await getUserFromSession(
+         req.session.userId
+      );
+
+      if (!resultUserFromSession.success) {
+         return res.status(401).json({
+            success: false,
+            message: resultUserFromSession.error,
+         });
+      }
+
+      const { user } = resultUserFromSession;
+
+      // -------------------------------------
+
       const body = req.body as {
          firstName?: string;
          lastName?: string;
@@ -31,7 +46,7 @@ export async function saveUserData(req: Request, res: Response) {
       if (!firstName || !lastName) {
          return res.status(400).json({
             success: false,
-            error: 'Fields "First name" and "Last name" are required',
+            message: 'Fields "First name" and "Last name" are required',
          });
       }
 
@@ -40,20 +55,7 @@ export async function saveUserData(req: Request, res: Response) {
 
       if (!preferredName) {
          preferredName = `${firstName} ${lastName}`;
-      }
-
-      const resultUserFromSession = await getUserFromSession(
-         req.session.userId
-      );
-
-      if (!resultUserFromSession.success) {
-         return res.status(401).json({
-            success: false,
-            error: resultUserFromSession.error,
-         });
-      }
-
-      const { user } = resultUserFromSession;
+      }      
 
       const userBirthday = birthday ? new Date(birthday) : null;
 
@@ -71,25 +73,24 @@ export async function saveUserData(req: Request, res: Response) {
          user.birthday = userBirthday;
       }
 
+      const userRepo = AppDataSource.getRepository(Users);
       await userRepo.save(user);
 
-      const userData = getUserDataForSession(user);
+      const userData = getUserData(user);
 
       req.session.userId = user.id;
-      req.session.user = userData;
       req.session.isAuthenticated = true;
 
-      return res.status(201).json({
+      return res.status(200).json({
          success: true,
          message: 'User data has been successfully saved',
-         user: userData,
-         csrfToken: res.locals.csrfToken,
+         user: userData
       });
    } catch (error) {
       console.error('Error during saving user data:', error);
       return res.status(500).json({
          success: false,
-         error: 'Server error',
+         message: 'Server error',
       });
    }
 }
@@ -98,12 +99,8 @@ export async function saveUserData(req: Request, res: Response) {
 
 export async function getUserVerificationCode(req: Request, res: Response) {
    try {
-      const { type, isNewValue, newValue } = req.body as {
-         type: 'email' | 'phone';
-         isNewValue?: boolean;
-         newValue?: string;
-      };
-
+      
+      // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
       );
@@ -111,11 +108,19 @@ export async function getUserVerificationCode(req: Request, res: Response) {
       if (!resultUserFromSession.success) {
          return res.status(401).json({
             success: false,
-            error: resultUserFromSession.error,
+            message: resultUserFromSession.error,
          });
       }
 
       const { user } = resultUserFromSession;
+
+      // ---------------------------------------------
+      
+      const { type, isNewValue, newValue } = req.body as {
+         type: 'email' | 'phone';
+         isNewValue?: boolean;
+         newValue?: string;
+      };      
 
       const contactDataValue = isNewValue
          ? newValue
@@ -132,13 +137,12 @@ export async function getUserVerificationCode(req: Request, res: Response) {
          success: true,
          isCodeWritten,
          isContactDataEmpty: contactDataValue ? false : true,
-         csrfToken: res.locals.csrfToken,
       });
    } catch (error) {
       console.error('Error writing verification code:', error);
       return res.status(500).json({
          success: false,
-         error: 'Error writing verification code',
+         message: 'Error writing verification code',
       });
    }
 }
@@ -146,9 +150,9 @@ export async function getUserVerificationCode(req: Request, res: Response) {
 // ------------------- checkUserVerificationCode --------------------
 
 export async function checkUserVerificationCode(req: Request, res: Response) {
-   try {
-      const { code } = req.body as { code: string };
+   try {    
 
+      // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
       );
@@ -156,30 +160,35 @@ export async function checkUserVerificationCode(req: Request, res: Response) {
       if (!resultUserFromSession.success) {
          return res.status(401).json({
             success: false,
-            error: resultUserFromSession.error,
+            message: resultUserFromSession.error,
          });
       }
 
       const { user } = resultUserFromSession;
+
+      // -----------------------------------
+
+      const { code } = req.body as { code: string };
 
       const result = await verifyUserVerificationCode(user.id, code);
 
       if (!result.success) {
          return res.status(401).json({
             success: false,
-            error: result.error,
+            message: result.error,
          });
-      }
+      };
 
-      return res.status(201).json({
+      await deleteVerificationCode(user.id);
+
+      return res.status(200).json({
          success: true,
-         csrfToken: res.locals.csrfToken,
       });
    } catch (error) {
       console.error('Error receiving verification code:', error);
       return res.status(500).json({
          success: false,
-         error: 'Error receiving verification code',
+         message: 'Error receiving verification code',
       });
    }
 }
@@ -187,7 +196,24 @@ export async function checkUserVerificationCode(req: Request, res: Response) {
 // ---------------------- checkUserContactData ----------------------
 
 export async function checkUserContactData(req: Request, res: Response) {
-   try {
+   try {      
+
+      // Let's check if the user is authenticated.
+      const resultUserFromSession = await getUserFromSession(
+         req.session.userId
+      );
+
+      if (!resultUserFromSession.success) {
+         return res.status(401).json({
+            success: false,
+            message: resultUserFromSession.error,
+         });
+      }
+
+      const { user } = resultUserFromSession;
+
+      // ------------------------------------
+
       const { type, value } = req.body as {
          type: 'email' | 'phone';
          value?: string;
@@ -196,10 +222,11 @@ export async function checkUserContactData(req: Request, res: Response) {
       if (!value || typeof value !== 'string') {
          return res.status(400).json({
             success: false,
-            error: `An ${type} is required`,
+            message: `An ${type} is required`,
          });
       }
 
+      const userRepo = AppDataSource.getRepository(Users);
       const existingUser = await userRepo.findOne({
          where:
             type === 'email'
@@ -210,41 +237,27 @@ export async function checkUserContactData(req: Request, res: Response) {
       if (existingUser) {
          return res.status(400).json({
             success: false,
-            error: `This ${type} is already in use`,
+            message: `This ${type} is already in use`,
          });
-      }
-
-      const resultUserFromSession = await getUserFromSession(
-         req.session.userId
-      );
-
-      if (!resultUserFromSession.success) {
-         return res.status(401).json({
-            success: false,
-            error: resultUserFromSession.error,
-         });
-      }
-
-      const { user } = resultUserFromSession;
+      }     
 
       const isCodeWritten = await writeUserVerificationCode(user.id);
       if (!isCodeWritten) {
          return res.status(401).json({
             success: false,
-            error: 'Error writing verification code',
+            message: 'Error writing verification code',
          });
       }
 
       return res.json({
          success: true,
-         csrfToken: res.locals.csrfToken,
       });
    } catch (error) {
       // type тут доступен только в блоке try, поэтому используем более общий текст
       console.error('Error checking contact data:', error);
       return res.status(500).json({
          success: false,
-         error: 'Error checking contact data',
+         message: 'Error checking contact data',
       });
    }
 }
@@ -253,6 +266,23 @@ export async function checkUserContactData(req: Request, res: Response) {
 
 export async function writeNewUserContactData(req: Request, res: Response) {
    try {
+
+      // Let's check if the user is authenticated.
+      const resultUserFromSession = await getUserFromSession(
+         req.session.userId
+      );
+
+      if (!resultUserFromSession.success) {
+         return res.status(401).json({
+            success: false,
+            message: resultUserFromSession.error,
+         });
+      }
+
+      const { user } = resultUserFromSession;
+
+      //---------------------------------------
+
       const { type, value, code } = req.body as {
          type: 'email' | 'phone';
          value?: string;
@@ -262,10 +292,11 @@ export async function writeNewUserContactData(req: Request, res: Response) {
       if (!value || typeof value !== 'string') {
          return res.status(400).json({
             success: false,
-            error: `An ${type} is required`,
+            message: `An ${type} is required`,
          });
       }
 
+      const userRepo = AppDataSource.getRepository(Users);
       const existingUser = await userRepo.findOne({
          where:
             type === 'email'
@@ -276,31 +307,20 @@ export async function writeNewUserContactData(req: Request, res: Response) {
       if (existingUser) {
          return res.status(400).json({
             success: false,
-            error: `This ${type} is already in use`,
+            message: `This ${type} is already in use`,
          });
-      }
-
-      const resultUserFromSession = await getUserFromSession(
-         req.session.userId
-      );
-
-      if (!resultUserFromSession.success) {
-         return res.status(401).json({
-            success: false,
-            error: resultUserFromSession.error,
-         });
-      }
-
-      const { user } = resultUserFromSession;
+      }      
 
       const result = await verifyUserVerificationCode(user.id, code);
 
       if (!result.success) {
          return res.status(401).json({
             success: false,
-            error: result.error,
+            message: result.error,
          });
       }
+
+      await deleteVerificationCode(user.id);
 
       const normalizedValue = value.trim().toLowerCase();
 
@@ -312,21 +332,18 @@ export async function writeNewUserContactData(req: Request, res: Response) {
 
       await userRepo.save(user);
 
-      const userData = getUserDataForSession(user);
-
-      req.session.user = userData;
+      const userData = getUserData(user);
 
       return res.status(201).json({
          success: true,
          message: 'New user contact data has been successfully saved',
          user: userData,
-         csrfToken: res.locals.csrfToken,
       });
    } catch (error) {
       console.error('Error writing user contact data:', error);
       return res.status(500).json({
          success: false,
-         error: 'Error writing user contact data',
+         message: 'Error writing user contact data',
       });
    }
 }
@@ -335,8 +352,8 @@ export async function writeNewUserContactData(req: Request, res: Response) {
 
 export async function checkUserPassword(req: Request, res: Response) {
    try {
-      const { password } = req.body as { password: string };
-
+      
+      // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
       );
@@ -344,30 +361,33 @@ export async function checkUserPassword(req: Request, res: Response) {
       if (!resultUserFromSession.success) {
          return res.status(401).json({
             success: false,
-            error: resultUserFromSession.error,
+            message: resultUserFromSession.error,
          });
       }
 
       const { user } = resultUserFromSession;
+
+      // ------------------------------------
+
+      const { password } = req.body as { password: string };
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
          return res.status(401).json({
             success: false,
-            error: 'Incorrect password',
+            message: 'Incorrect password',
          });
       }
 
-      return res.status(201).json({
+      return res.status(200).json({
          success: true,
-         csrfToken: res.locals.csrfToken,
       });
    } catch (error) {
       console.error('Error during check user password:', error);
       return res.status(500).json({
          success: false,
-         error: 'Error during check user password',
+         message: 'Error during check user password',
       });
    }
 }
@@ -376,15 +396,8 @@ export async function checkUserPassword(req: Request, res: Response) {
 
 export async function writeNewUserPassword(req: Request, res: Response) {
    try {
-      const { password } = req.body as { password?: string };
 
-      if (!password || typeof password !== 'string') {
-         return res.status(400).json({
-            success: false,
-            error: 'Password is required',
-         });
-      }
-
+      // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
       );
@@ -392,26 +405,38 @@ export async function writeNewUserPassword(req: Request, res: Response) {
       if (!resultUserFromSession.success) {
          return res.status(401).json({
             success: false,
-            error: resultUserFromSession.error,
+            message: resultUserFromSession.error,
          });
       }
 
       const { user } = resultUserFromSession;
 
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // ---------------------------
 
+      const { password } = req.body as { password?: string };
+
+      if (!password || typeof password !== 'string') {
+         return res.status(400).json({
+            success: false,
+            message: 'Password is required',
+         });
+      };
+      
+      const hashedPassword = await bcrypt.hash(password, 10);
+      
       user.password = hashedPassword;
+
+      const userRepo = AppDataSource.getRepository(Users);
       await userRepo.save(user);
 
-      return res.status(201).json({
+      return res.status(200).json({
          success: true,
-         csrfToken: res.locals.csrfToken,
       });
    } catch (error) {
       console.error('Error during writing new user password:', error);
       return res.status(500).json({
          success: false,
-         error: 'Error during writing new user password',
+         message: 'Error during writing new user password',
       });
    }
 }
@@ -420,8 +445,8 @@ export async function writeNewUserPassword(req: Request, res: Response) {
 
 export async function deleteUserAccount(req: Request, res: Response) {
    try {
-      const { password } = req.body as { password: string };
 
+      // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
       );
@@ -429,22 +454,28 @@ export async function deleteUserAccount(req: Request, res: Response) {
       if (!resultUserFromSession.success) {
          return res.status(401).json({
             success: false,
-            error: resultUserFromSession.error,
+            message: resultUserFromSession.error,
          });
       }
 
       const { user } = resultUserFromSession;
+
+      // ---------------------------------------
+
+      const { password } = req.body as { password: string };      
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
          return res.status(401).json({
             success: false,
-            error: 'Incorrect password',
+            message: 'Incorrect password',
          });
       }
 
       await deleteVerificationCode(user.id);
+
+      const userRepo = AppDataSource.getRepository(Users);
       await userRepo.remove(user);
 
       req.session.destroy((err) => {
@@ -452,13 +483,13 @@ export async function deleteUserAccount(req: Request, res: Response) {
             console.error('Error destroying session:', err);
             return res.status(500).json({
                success: false,
-               error: 'Error destroying session',
+               message: 'Error destroying session',
             });
          }
 
          res.clearCookie('auth.sid');
 
-         return res.status(201).json({
+         return res.status(200).json({
             success: true,
          });
       });
@@ -466,7 +497,7 @@ export async function deleteUserAccount(req: Request, res: Response) {
       console.error('Error during deleting user account:', error);
       return res.status(500).json({
          success: false,
-         error: 'Error during deleting user account',
+         message: 'Error during deleting user account',
       });
    }
 }

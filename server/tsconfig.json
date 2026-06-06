@@ -12,6 +12,7 @@
     "allowSyntheticDefaultImports": true, 
     "forceConsistentCasingInFileNames": true,
     
+    // TypeORM Settings
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
@@ -22,6 +23,16 @@
     // Recommended Options
     "strict": true,
     "skipLibCheck": true,
+
+    "paths": {
+      "@auth/*": ["./src/app_auth/*"],
+      "@user_account/*": ["./src/app_user_account/*"],
+      "@vehicles/*": ["./src/app_vehicles/*"],
+      "@vendors/*":  ["./src/app_vendors/*"],
+      "@locations/*":  ["./src/app_locations/*"],
+      "@config/*":   ["./src/config/*"]
+    },
+
   },
 "include": ["src/**/*"],
 "exclude": ["node_modules", "build"]

@@ -1,18 +1,17 @@
-import type { ColumnDefinitions, MigrationBuilder } from 'node-pg-migrate';
+import type { MigrationBuilder, ColumnDefinitions } from 'node-pg-migrate';
 
-export const shorthands: ColumnDefinitions = {};
+export const shorthands: ColumnDefinitions | undefined = undefined;
 
 export async function up(pgm: MigrationBuilder): Promise<void> {
-   pgm.createTable('sessions', {
-      id: { type: 'varchar(255)', primaryKey: true },
-      expiredAt: { type: 'bigint', notNull: true },
-      json: { type: 'text', notNull: true },
-      destroyedAt: { type: 'timestamptz', notNull: false },
+   pgm.createTable('user_sessions', {
+      sid: { type: 'varchar', primaryKey: true, notNull: true },
+      sess: { type: 'json', notNull: true },
+      expire: { type: 'timestamp(6)', notNull: true },
    });
 
-   pgm.createIndex('sessions', 'expiredAt');
+   pgm.createIndex('user_sessions', 'expire', { name: 'IDX_user_sessions_expire' });
 }
 
 export async function down(pgm: MigrationBuilder): Promise<void> {
-   pgm.dropTable('sessions');
+   pgm.dropTable('user_sessions');
 }

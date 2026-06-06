@@ -3,12 +3,10 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-
+import { setupSessionMiddleware } from './middleware/session.js';
+import { csrfProtection } from './middleware/csrf.js';
 import { AppDataSource } from './config/database.js';
-import { setupSessionMiddleware } from './app_session/sessionMiddleware.js';
-import { generateCsrfToken } from './middleware/csrf.js';
-
-import routes from './common/routes.js';
+import routes from './core/routes.js';
 
 dotenv.config();
 
@@ -36,11 +34,9 @@ async function startServer(): Promise<void> {
       await AppDataSource.initialize();
       console.log('✅ Подключение к PostgreSQL установлено');
 
-      // Сессии (нужен инициализированный DataSource)
-      app.use(await setupSessionMiddleware());
-
-      // CSRF токен для всех запросов
-      app.use(generateCsrfToken);
+      // Middleware
+      app.use(setupSessionMiddleware());
+      app.use(csrfProtection());
 
       // Маршруты
       app.use('/api', routes);
@@ -54,7 +50,7 @@ async function startServer(): Promise<void> {
             next: express.NextFunction
          ) => {
             void next;
-            console.error('❌ Express error handler:', err);
+            console.error('Express error handler:', err);
             res.status(500).json({
                success: false,
                error: 'Internal server error',
@@ -64,11 +60,11 @@ async function startServer(): Promise<void> {
 
       // Запуск сервера
       app.listen(PORT, () => {
-         console.log(`🚀 Сервер запущен на порту ${PORT}`);
-         console.log(`📡 API доступен по адресу http://localhost:${PORT}`);
+         console.log(`Сервер запущен на порту ${PORT}`);
+         console.log(`API доступен по адресу http://localhost:${PORT}`);
       });
    } catch (error) {
-      console.error('❌ Ошибка при запуске сервера:', error);
+      console.error('Ошибка при запуске сервера:', error);
       process.exit(1);
    }
 }

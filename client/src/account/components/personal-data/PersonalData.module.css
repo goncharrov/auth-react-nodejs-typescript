@@ -1,0 +1,49 @@
+.userDataItems {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: flex-start;
+   padding: 0;
+}
+
+.userDataItem {
+   flex-basis: 100%;
+   padding: 8px 0;
+   text-align: left;
+   display: block;
+}
+
+.userDataButtonSubmit {
+   padding: 16px 0;
+}
+
+/* Tablet ≥ 576px */
+@media screen and (min-width: 576px) {
+
+   .userDataItems {
+      padding: 0 8px;
+   }
+
+   .userDataItem {
+      flex-basis: 50%;
+      padding: 8px;
+   }
+
+   .userDataButtonSubmit {
+      padding: 16px;      
+   }
+
+}
+
+/* Laptop ≥ 1024px */
+@media screen and (min-width: 1024px) {
+   
+   .userDataItem {
+      padding: 8px 12px;
+   }
+
+   .userDataButtonSubmit {
+      padding: 16px 24px;
+      
+   }
+
+}

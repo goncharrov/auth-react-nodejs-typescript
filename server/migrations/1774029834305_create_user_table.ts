@@ -87,7 +87,6 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
                columns: ['user_id'],
                references: 'auth_users(id)',
                onDelete: 'RESTRICT',
-               onUpdate: 'CASCADE',
             },
          ],
       }

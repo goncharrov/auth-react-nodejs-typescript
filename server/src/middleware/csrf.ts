@@ -1,66 +1,36 @@
-import csrf from 'csrf';
-import { Request, Response, NextFunction } from 'express';
+import { randomBytes } from 'crypto';
+import type { Request, Response, NextFunction, RequestHandler } from 'express';
 
-const tokens = new csrf();
+const CSRF_HEADER = 'x-csrf-token';
+const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
 
-// Генерация CSRF токена
-
-export function generateCsrfToken(
-   req: Request,
-   res: Response,
-   next: NextFunction
-) {
-   if (!req.session) {
-      return next(
-         new Error(
-            'Session is not available (store error or middleware order). Check session logs.'
-         )
-      );
+function generateToken(req: Request): string {
+   if (!req.session.csrfToken) {
+      req.session.csrfToken = randomBytes(32).toString('hex');
    }
-
-   if (!req.session.secret) {
-      req.session.secret = tokens.secretSync();
-   }
-
-   const token = tokens.create(req.session.secret);
-   req.session.csrfToken = token;
-   res.locals.csrfToken = token;
-
-   next();
+   return req.session.csrfToken;
 }
 
-// Валидация CSRF токена
+export function csrfTokenHandler(req: Request, res: Response): void {
+   const token = generateToken(req);
+   res.json({ csrfToken: token });
+}
 
-export function validateCsrfToken(
-   req: Request,
-   res: Response,
-   next: NextFunction
-) {
-   if (!['POST', 'PUT', 'DELETE', 'PATCH'].includes(req.method)) {
-      return next();
-   }
+export function csrfProtection(): RequestHandler {
+   return (req: Request, res: Response, next: NextFunction): void => {
+      if (SAFE_METHODS.has(req.method)) {
+         next();
+         return;
+      }
 
-   const token =
-      (req.headers['x-csrf-token'] as string | undefined) ||
-      (req.body && (req.body._csrf as string | undefined));
+      const headerToken = req.headers[CSRF_HEADER];
+      const sessionToken = req.session.csrfToken;
 
-   const secret = req.session?.secret;
+      if (!sessionToken || headerToken !== sessionToken) {
+         res.status(403).json({ message: 'Invalid CSRF token' });
+         return;
+      }
 
-   if (!req.session || !secret || !token) {
-      return res.status(403).json({
-         success: false,
-         error: 'CSRF token missing',
-      });
-   }
-
-   const isValid = tokens.verify(secret, token);
-
-   if (!isValid) {
-      return res.status(403).json({
-         success: false,
-         error: 'Invalid CSRF token',
-      });
-   }
-
-   next();
+      next();
+   };
 }

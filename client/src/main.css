@@ -1,28 +1,33 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
 
 :root {
-    --blue-lite: #DEE4FD;
-    --font-color: #4E4E4E;
-    --grey-lite: #F7F7F7;
-    --grey-line: #B0B0B0;
-    --grey-arrow: #6E6E6E; 
-    --grey-button: #F1F1F5; 
-    --button-color: #0D77EB;
-    --black: #131921;
-    --black-amazon: #131921;
-    --black-amazon-lite: #232F3E; 
-    --validation: #D30D2E;
-    --select-color: #C7D2FD;    
+   --blue-lite: #DEE4FD;
+   --font-color: #4E4E4E;
+   --font-color-lite: #757575;
+   --grey-lite: #F7F7F7;
+   --grey-line: #B0B0B0;
+   --grey-img: #C8C8C8;
+   --grey-arrow: #6E6E6E;
+   --grey-button: #F1F1F5;
+   --button-color: #0D77EB;
+   --black-amazon: #131921;
+   --black-amazon-lite: #232F3E;
+   --validation: #D30D2E;
+   --red-button: #FF385C;
+   --select-color: #C7D2FD;
+   --header-border-line: #99ABD7;
+   --select-color: #B6D6F9;
 }
 
-* {
-	margin: 0;
-	padding: 0;
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
 }
 
 body {
-    font-family: 'Roboto', 'Arial', sans-serif;
-    font-size: 15px;
-    background-color: #fff;
+   font-family: 'Roboto', sans-serif;
+   background-color: #fff;
 }

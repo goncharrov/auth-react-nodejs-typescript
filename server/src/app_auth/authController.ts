@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import { AppDataSource } from '../config/database.js';
-import { Users } from './authEntities.js';
+import bcrypt from 'bcryptjs';
+import { AppDataSource } from '@config/database.js';
+import { Users } from '@auth/authEntities.js';
 import {
    makeStringCapitalized,
-   getUserDataForSession,
+   getUserData,
    writeUserVerificationCode,
    verifyUserVerificationCode,
    deleteVerificationCode,
@@ -19,7 +19,7 @@ export async function checkEmail(req: Request, res: Response) {
       if (!email || typeof email !== 'string') {
          return res.status(400).json({
             success: false,
-            error: 'Email is required',
+            message: 'Email is required',
          });
       }
 
@@ -37,14 +37,13 @@ export async function checkEmail(req: Request, res: Response) {
          success: true,
          exists: !!user,
          message: user ? 'User found' : 'User not found',
-         loginWithCode: codeIsWritten,
-         csrfToken: res.locals.csrfToken,
+         authorizationType: codeIsWritten ? 'code' : 'password',
       });
    } catch (error) {
       console.error('Error checking email:', error);
       res.status(500).json({
          success: false,
-         error: 'Error checking email',
+         message: 'Error checking email',
       });
    }
 }
@@ -59,7 +58,7 @@ export async function loginWithPassword(req: Request, res: Response) {
       if (!email || !password) {
          return res.status(400).json({
             success: false,
-            error: 'Email and password are required',
+            message: 'Email and password are required',
          });
       }
 
@@ -72,7 +71,7 @@ export async function loginWithPassword(req: Request, res: Response) {
       if (!user) {
          return res.status(401).json({
             success: false,
-            error: 'Incorrect email',
+            message: 'Incorrect email',
          });
       }
 
@@ -82,29 +81,28 @@ export async function loginWithPassword(req: Request, res: Response) {
       if (!isPasswordValid) {
          return res.status(401).json({
             success: false,
-            error: 'Incorrect password',
+            message: 'Incorrect password',
          });
       }
 
-      const userData = getUserDataForSession(user);
+      const userData = getUserData(user);
 
       // Create session
       req.session.userId = user.id;
-      req.session.user = userData;
       req.session.isAuthenticated = true;
 
-      res.status(201).json({
+      await deleteVerificationCode(user.id);
+
+      res.status(200).json({
          success: true,
          user: userData,
-         csrfToken: res.locals.csrfToken,
       });
-
-      await deleteVerificationCode(user.id);
+      
    } catch (error) {
       console.error('Error during login:', error);
       res.status(500).json({
          success: false,
-         error: 'Error during login',
+         message: 'Error during login',
       });
    }
 }
@@ -119,7 +117,7 @@ export async function loginWithCode(req: Request, res: Response) {
       if (!email || !code) {
          return res.status(400).json({
             success: false,
-            error: 'Email and code are required',
+            message: 'Email and code are required',
          });
       }
 
@@ -132,7 +130,7 @@ export async function loginWithCode(req: Request, res: Response) {
       if (!user) {
          return res.status(401).json({
             success: false,
-            error: 'Incorrect email',
+            message: 'Incorrect email',
          });
       }
 
@@ -141,29 +139,28 @@ export async function loginWithCode(req: Request, res: Response) {
       if (!result.success) {
          return res.status(401).json({
             success: false,
-            error: result.error,
+            message: result.error,
          });
       }
 
-      const userData = getUserDataForSession(user);
+      const userData = getUserData(user);
 
       // Create session
       req.session.userId = user.id;
-      req.session.user = userData;
       req.session.isAuthenticated = true;
 
-      res.status(201).json({
+      await deleteVerificationCode(user.id);
+
+      res.status(200).json({
          success: true,
          user: userData,
-         csrfToken: res.locals.csrfToken,
       });
-
-      await deleteVerificationCode(user.id);
+      
    } catch (error) {
-      console.log('Error during login:', error);
+      console.error('Error during login:', error);
       res.status(500).json({
          success: false,
-         error: 'Error during login',
+         message: 'Error during login',
       });
    }
 }
@@ -177,7 +174,7 @@ export async function sendNewLoginCode(req: Request, res: Response) {
       if (!email || typeof email !== 'string') {
          return res.status(400).json({
             success: false,
-            error: 'Email is required',
+            message: 'Email is required',
          });
       }
 
@@ -189,7 +186,7 @@ export async function sendNewLoginCode(req: Request, res: Response) {
       if (!user) {
          return res.status(401).json({
             success: false,
-            error: 'Incorrect email',
+            message: 'Incorrect email',
          });
       }
 
@@ -198,11 +195,12 @@ export async function sendNewLoginCode(req: Request, res: Response) {
       res.json({
          success: true,
          codeIsWritten,
-         csrfToken: res.locals.csrfToken,
       });
+
    } catch {
-      return res.status(401).json({
-         error: 'Error sending code. Login with email.',
+      return res.status(500).json({
+         success: false,
+         message: 'Error sending code. Login with email.',
       });
    }
 }
@@ -223,7 +221,7 @@ export async function registration(req: Request, res: Response) {
    if (password.length < 8) {
       return res.status(400).json({
          success: false,
-         error: 'Password must contains at least 8 characters',
+         message: 'Password must contains at least 8 characters',
       });
    }
 
@@ -237,7 +235,7 @@ export async function registration(req: Request, res: Response) {
       if (existingUser) {
          return res.status(400).json({
             success: false,
-            error: 'There is already user with this e-mail address',
+            message: 'There is already user with this e-mail address',
          });
       }
 
@@ -257,18 +255,16 @@ export async function registration(req: Request, res: Response) {
          })
       );
 
-      const userData = getUserDataForSession(user);
+      const userData = getUserData(user);
 
       // Create session
       req.session.userId = user.id;
-      req.session.user = userData;
       req.session.isAuthenticated = true;
 
       res.status(201).json({
          success: true,
          message: 'The user has been successfully registered',
          user: userData,
-         csrfToken: res.locals.csrfToken,
       });
    } catch (error: unknown) {
       console.error('Error during registration:', error);
@@ -286,14 +282,14 @@ export async function registration(req: Request, res: Response) {
          // Unique constraint violation
          res.status(400).json({
             success: false,
-            error: 'There is already user with this e-mail address',
+            message: 'There is already user with this e-mail address',
          });
          return;
       }
 
       res.status(500).json({
          success: false,
-         error: `Server error: ${error}`,
+         message: `Server error: ${error}`,
       });
    }
 }
@@ -320,6 +316,7 @@ export async function getCurrentUser(req: Request, res: Response) {
             preferredName: true,
             birthday: true,
             gender: true,
+            role: true
          },
       });
 
@@ -334,21 +331,13 @@ export async function getCurrentUser(req: Request, res: Response) {
 
       res.json({
          success: true,
-         user: {
-            email: user.email,
-            phone: user.phone,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            preferredName: user.preferredName,
-            gender: user.gender,
-            birthday: user.birthday,
-         },
+         user
       });
    } catch (error) {
       console.error('Error getting current user:', error);
       res.status(500).json({
          success: false,
-         error: 'Error getting current user',
+         message: 'Error getting current user',
       });
    }
 }
@@ -362,11 +351,11 @@ export async function logout(req: Request, res: Response) {
             console.error('Error destroying session:', err);
             return res.status(500).json({
                success: false,
-               error: 'Error destroying session',
+               message: 'Error destroying session',
             });
          }
 
-         res.clearCookie('auth.sid');
+         res.clearCookie('connect.sid');
          res.json({
             success: true,
          });
@@ -375,7 +364,7 @@ export async function logout(req: Request, res: Response) {
       console.error('Error during logout:', error);
       res.status(500).json({
          success: false,
-         error: 'Error during logout',
+         message: 'Error during logout',
       });
    }
 }

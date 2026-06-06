@@ -1,0 +1,125 @@
+.headerUserWrapper {
+   position: relative;
+   height: 100%;
+   width: 48px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: #fff;
+   margin-left: auto;
+   flex-shrink: 0;
+}
+
+.headerUserWrapper.active {
+   background-color: #EBECF0;
+}
+
+.headerUserWrapper button {
+   display: flex;
+   align-items: center;
+   border: none;
+   background-color: #fff;
+   cursor: pointer;
+}
+
+.headerUserWrapper button.active {
+    background-color: #EBECF0;
+}
+
+.headerUserImg {
+   width: 28px;
+   margin: 2px;
+   border-radius: 50%;
+   border: 1px solid #e0e0e0;
+}
+
+/* ── Login dropdown ── */
+
+.headerUserDropdownMenu {
+   position: absolute;
+   top: calc(100% + 1px);
+   right: 0;
+   min-width: 220px;
+   background-color: #fff;
+   border: 1px solid #e0e0e0;
+   border-radius: 0 0 8px 8px;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+   opacity: 0;
+   visibility: hidden;
+   transform: translateY(-10px);
+   transition: all 0.3s ease;
+}
+
+.headerUserDropdownMenu.active {
+   opacity: 1;
+   visibility: visible;
+   transform: translateY(0);
+}
+
+.headerUserDropdownMenuData {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 8px;
+   border-bottom: 1px solid #e0e0e0;
+}
+
+.headerUserDropdownMenuData .userImg {
+   width: 64px;
+   border-radius: 50%;
+   border: 1px solid #e0e0e0;
+}
+
+.headerUserDropdownMenuData span {
+   margin: 8px 0 4px;
+   font-size: 16px;
+   font-weight: 500;
+   color: var(--font-color);
+}
+
+.headerUserDropdownMenu ul {
+   list-style: none;
+   padding: 4px 0;
+}
+
+.headerUserDropdownMenu li {
+   line-height: 20px;
+   padding: 8px;
+}
+
+.headerUserDropdownMenuList img {
+   width: 20px;
+   margin-right: 12px;
+}
+
+.headerUserDropdownMenu li:hover {
+   background: var(--grey-lite);
+   cursor: pointer;
+}
+
+.headerUserDropdownMenu button {
+   display: flex;
+   align-items: center;
+   width: 100%;
+   font-size: 15px;
+   font-weight: 400;
+   color: var(--font-color);
+   background: none;
+   border: none;
+   cursor: pointer;
+   padding: 0;
+   font-family: 'Roboto', sans-serif;
+   transition: background-color 0.2s ease;
+}
+
+.headerUserDropdownMenu button.logout {
+   font-weight: 500;
+}
+
+/* ───────── RESPONSIVE ───────── */
+
+/* Tablet ≥ 576px */
+@media screen and (min-width: 576px) {
+   .headerUserWrapper { width: 64px; } 
+   .headerUserImg     { width: 36px; }
+}

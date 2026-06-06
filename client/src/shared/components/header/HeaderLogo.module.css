@@ -1,0 +1,15 @@
+.headerLogo {
+   display: flex;
+   align-items: center;
+   flex-shrink: 0;
+   border: none;
+}
+
+.headerLogo img {
+   width: 76px;
+}
+
+/* Tablet ≥ 576px */
+@media screen and (min-width: 576px) {
+   .headerLogo img { width: 88px; }
+}

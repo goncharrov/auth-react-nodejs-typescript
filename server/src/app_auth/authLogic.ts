@@ -1,44 +1,31 @@
+import { createHash } from 'crypto';
 import { AppDataSource } from '../config/database.js';
-import { Users, UsersVerificationCode } from '../app_auth/authEntities.js';
+import { Users, UsersVerificationCode } from '@auth/authEntities.js';
 
 export function makeStringCapitalized(str: string): string {
    const normalized = str.trim().toLowerCase();
    return normalized.charAt(0).toUpperCase() + normalized.slice(1);
 }
 
-export function getUserDataForSession(user: Users) {
-   const {
-      email,
-      phone,
-      firstName,
-      lastName,
-      preferredName,
-      birthday,
-      gender,
-      role,
-   } = user;
-   return {
-      email,
-      phone,
-      firstName,
-      lastName,
-      preferredName,
-      birthday,
-      gender,
-      role,
-   };
+export function getUserData(
+   { email, phone, firstName, lastName, preferredName, birthday, gender, role }: Users
+) {
+   return { email, phone, firstName, lastName, preferredName, birthday, gender, role };
 }
 
-export async function writeUserVerificationCode(
-   userId: number
-): Promise<boolean> {
+function hashCode(code: string): string {
+   return createHash('sha256').update(code).digest('hex');
+}
+
+export async function writeUserVerificationCode( userId: number ): Promise<boolean> {
    const currentDate = new Date();
    const expireDate = new Date(currentDate.getTime() + 5 * 60 * 1000);
 
    // let code = Math.floor(Math.random() * 10000)
    //    .toString()
    //    .padStart(4, '0');
-   const code = '5555';
+   let code = '5555';
+   code = hashCode(code);
 
    try {
       const verificationRepo = AppDataSource.getRepository(
@@ -67,20 +54,14 @@ export async function writeUserVerificationCode(
 
       return true;
    } catch (error) {
-      console.log('Error during writing login email code:', error);
+      console.error('Error during writing login email code:', error);
       return false;
    }
 }
 
 export async function deleteVerificationCode(userId: number): Promise<void> {
    const verificationRepo = AppDataSource.getRepository(UsersVerificationCode);
-   const verificationCode = await verificationRepo.findOne({
-      where: { userId },
-   });
-
-   if (verificationCode) {
-      await verificationRepo.remove(verificationCode);
-   }
+   await verificationRepo.delete({ userId });
 }
 
 export async function verifyUserVerificationCode(
@@ -102,7 +83,7 @@ export async function verifyUserVerificationCode(
    }
 
    // Check verification code
-   if (code !== verificationCode.code) {
+   if (hashCode(code) !== verificationCode.code) {
       return {
          success: false,
          error: 'The code you entered is incorrect',
@@ -119,9 +100,9 @@ export async function verifyUserVerificationCode(
    return { success: true };
 }
 
-export async function getUserFromSession(
-   userId: number | undefined
-): Promise<{ success: true; user: Users } | { success: false; error: string }> {
+export async function getUserFromSession( userId: number | undefined ): 
+   Promise<{ success: true; user: Users } | { success: false; error: string }> {
+   
    if (!userId) {
       return {
          success: false,

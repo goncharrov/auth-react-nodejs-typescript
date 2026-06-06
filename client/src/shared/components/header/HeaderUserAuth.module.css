@@ -1,0 +1,36 @@
+.headerLoginWrapper {
+   position: relative;
+   height: 100%;
+   width: 48px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: #fff;
+   margin-left: auto;
+   flex-shrink: 0;
+}
+
+.headerLoginWrapper button {
+   display: flex;
+   align-items: center;
+   border: solid var(--font-color) 1px;
+   border-radius: 6px;
+   background-color: #fff;
+   cursor: pointer;
+   padding: 2px;
+}
+
+.headerLoginSvg {
+   width: 26px;
+}
+
+/* Tablet ≥ 576px */
+@media screen and (min-width: 576px) {
+   .headerLoginWrapper  { width: 64px; }
+   .headerLoginImg      { width: 26px; }
+}
+
+/* Tablet ≥ 760px */
+@media screen and (min-width: 760px) {
+   .headerLoginImg { width: 32px; } 
+}

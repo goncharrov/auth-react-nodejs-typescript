@@ -1,0 +1,13 @@
+.container {
+   max-width: 1440px; 
+   margin: 0 auto;
+   padding: 0 8px;   /* Mobile < 576px */
+}
+
+@media screen and (min-width: 576px) {
+   .container { padding: 0 16px; }  /* Tablet */
+}
+
+@media screen and (min-width: 1024px) {
+   .container { padding: 0 24px; }  /* Laptop + Desktop */
+}
