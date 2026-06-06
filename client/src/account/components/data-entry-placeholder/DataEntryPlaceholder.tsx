@@ -131,7 +131,11 @@ function DataEntryPlaceholder({
             {inputType === 'password' ? (
                <InputPassword
                   value={value}
-                  style={{ width: '100%', maxWidth: '232px', margin: '8px auto 16px auto' }}
+                  style={{
+                     width: '100%',
+                     maxWidth: '232px',
+                     margin: '8px auto 16px auto',
+                  }}
                   onChange={onManageUserData}
                />
             ) : (

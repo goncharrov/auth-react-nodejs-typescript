@@ -16,7 +16,6 @@ import {
 
 export async function saveUserData(req: Request, res: Response) {
    try {
-
       // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
@@ -55,7 +54,7 @@ export async function saveUserData(req: Request, res: Response) {
 
       if (!preferredName) {
          preferredName = `${firstName} ${lastName}`;
-      }      
+      }
 
       const userBirthday = birthday ? new Date(birthday) : null;
 
@@ -84,7 +83,7 @@ export async function saveUserData(req: Request, res: Response) {
       return res.status(200).json({
          success: true,
          message: 'User data has been successfully saved',
-         user: userData
+         user: userData,
       });
    } catch (error) {
       console.error('Error during saving user data:', error);
@@ -99,7 +98,6 @@ export async function saveUserData(req: Request, res: Response) {
 
 export async function getUserVerificationCode(req: Request, res: Response) {
    try {
-      
       // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
@@ -115,12 +113,12 @@ export async function getUserVerificationCode(req: Request, res: Response) {
       const { user } = resultUserFromSession;
 
       // ---------------------------------------------
-      
+
       const { type, isNewValue, newValue } = req.body as {
          type: 'email' | 'phone';
          isNewValue?: boolean;
          newValue?: string;
-      };      
+      };
 
       const contactDataValue = isNewValue
          ? newValue
@@ -150,8 +148,7 @@ export async function getUserVerificationCode(req: Request, res: Response) {
 // ------------------- checkUserVerificationCode --------------------
 
 export async function checkUserVerificationCode(req: Request, res: Response) {
-   try {    
-
+   try {
       // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
@@ -177,7 +174,7 @@ export async function checkUserVerificationCode(req: Request, res: Response) {
             success: false,
             message: result.error,
          });
-      };
+      }
 
       await deleteVerificationCode(user.id);
 
@@ -196,8 +193,7 @@ export async function checkUserVerificationCode(req: Request, res: Response) {
 // ---------------------- checkUserContactData ----------------------
 
 export async function checkUserContactData(req: Request, res: Response) {
-   try {      
-
+   try {
       // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
@@ -239,7 +235,7 @@ export async function checkUserContactData(req: Request, res: Response) {
             success: false,
             message: `This ${type} is already in use`,
          });
-      }     
+      }
 
       const isCodeWritten = await writeUserVerificationCode(user.id);
       if (!isCodeWritten) {
@@ -266,7 +262,6 @@ export async function checkUserContactData(req: Request, res: Response) {
 
 export async function writeNewUserContactData(req: Request, res: Response) {
    try {
-
       // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
@@ -309,7 +304,7 @@ export async function writeNewUserContactData(req: Request, res: Response) {
             success: false,
             message: `This ${type} is already in use`,
          });
-      }      
+      }
 
       const result = await verifyUserVerificationCode(user.id, code);
 
@@ -352,7 +347,6 @@ export async function writeNewUserContactData(req: Request, res: Response) {
 
 export async function checkUserPassword(req: Request, res: Response) {
    try {
-      
       // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
@@ -396,7 +390,6 @@ export async function checkUserPassword(req: Request, res: Response) {
 
 export async function writeNewUserPassword(req: Request, res: Response) {
    try {
-
       // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
@@ -420,10 +413,10 @@ export async function writeNewUserPassword(req: Request, res: Response) {
             success: false,
             message: 'Password is required',
          });
-      };
-      
+      }
+
       const hashedPassword = await bcrypt.hash(password, 10);
-      
+
       user.password = hashedPassword;
 
       const userRepo = AppDataSource.getRepository(Users);
@@ -445,7 +438,6 @@ export async function writeNewUserPassword(req: Request, res: Response) {
 
 export async function deleteUserAccount(req: Request, res: Response) {
    try {
-
       // Let's check if the user is authenticated.
       const resultUserFromSession = await getUserFromSession(
          req.session.userId
@@ -462,7 +454,7 @@ export async function deleteUserAccount(req: Request, res: Response) {
 
       // ---------------------------------------
 
-      const { password } = req.body as { password: string };      
+      const { password } = req.body as { password: string };
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 

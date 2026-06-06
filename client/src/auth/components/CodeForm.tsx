@@ -40,7 +40,11 @@ const CodeForm = ({
             </div>
             <div>
                <NavLink to="/">
-                  <img src={iconLogo} alt="Ulubike" style={{ width: '104px' }} />
+                  <img
+                     src={iconLogo}
+                     alt="Ulubike"
+                     style={{ width: '104px' }}
+                  />
                </NavLink>
             </div>
             <div style={{ width: '32px' }}></div>
@@ -68,10 +72,21 @@ const CodeForm = ({
                />
 
                {timerActive && (
-                  <TimeCounter secondsLeft={secondsLeft} onRestart={() => {void onRestart();}}/>
+                  <TimeCounter
+                     secondsLeft={secondsLeft}
+                     onRestart={() => {
+                        void onRestart();
+                     }}
+                  />
                )}
 
-               <ButtonBlue type="submit"  disabled={loading} onClick={(e) => {void onCodeSubmit(e);}}>
+               <ButtonBlue
+                  type="submit"
+                  disabled={loading}
+                  onClick={(e) => {
+                     void onCodeSubmit(e);
+                  }}
+               >
                   Continue
                </ButtonBlue>
             </form>

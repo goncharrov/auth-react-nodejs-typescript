@@ -1,5 +1,3 @@
-// import { parsePhoneNumberFromString } from 'libphonenumber-js';
-
 export function isEmpty(value: unknown): boolean {
    if (value === null || value === undefined) {
       return true;
@@ -37,7 +35,6 @@ export function checkContactData(
    userDataType: 'email' | 'phone',
    userDataValue: string
 ): CheckContactDataResult {
-   
    const result: CheckContactDataResult = {
       isValid: true,
       reason: '',
@@ -61,7 +58,6 @@ export function checkContactData(
       }
    } else if (userDataType === 'phone') {
       // const phone = parsePhoneNumberFromString(userDataValue);
-
       // if (!phone || !phone.isValid()) {
       //    result.isValid = false;
       //    result.reason = 'Phone is not specified';

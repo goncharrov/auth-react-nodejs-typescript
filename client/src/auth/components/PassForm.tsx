@@ -35,7 +35,11 @@ const PassForm = ({
             </div>
             <div>
                <NavLink to="/">
-                  <img src={iconLogo} alt="Ulubike" style={{ width: '104px' }} />
+                  <img
+                     src={iconLogo}
+                     alt="Ulubike"
+                     style={{ width: '104px' }}
+                  />
                </NavLink>
             </div>
             <div style={{ width: '32px' }}></div>

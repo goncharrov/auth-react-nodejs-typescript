@@ -5,7 +5,7 @@ import type { RegUserData } from '../authTypes';
 
 import { authApi } from '@auth/authApi';
 import { isEmailValid } from '@shared/utils/formValidation';
-import { useAuth } from '@auth/authContext';
+import { useAuth } from '@auth/useAuth';
 
 import Input from '@auth/components/ui/input/Input';
 import InputPassword from '@auth/components/ui/input/InputPassword';
@@ -112,7 +112,7 @@ const RegForm = () => {
          if (result.data.success) {
             setUser(result.data.user);
             void navigate('/');
-         }         
+         }
       } catch (err) {
          if (err instanceof Error) {
             console.log(err.message);

@@ -131,7 +131,7 @@ export default function PersonalData({ user, setUser }: UserDataProps) {
          firstName: formData.firstName,
          lastName: formData.lastName,
          preferredName: formData.preferredName,
-         gender: formData.gender?.label ?? undefined,  
+         gender: formData.gender?.label ?? undefined,
          birthday: formData.birthday ?? undefined,
       };
 
@@ -207,7 +207,9 @@ export default function PersonalData({ user, setUser }: UserDataProps) {
                      name="Preferred name"
                      type="text"
                      id="id-preferred-name"
-                     value={formData.preferredName ? formData.preferredName : ''}
+                     value={
+                        formData.preferredName ? formData.preferredName : ''
+                     }
                      validationText=""
                      onChange={(event: string) =>
                         handleInputChange(event, 'preferredName')

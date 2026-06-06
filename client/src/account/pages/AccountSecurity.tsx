@@ -35,7 +35,9 @@ function AccountSecurity() {
                </div>
                <div
                   className={userDataStyles.userDataElement}
-                  onClick={() => void openDataEntryForm(contactInformation.password)}
+                  onClick={() =>
+                     void openDataEntryForm(contactInformation.password)
+                  }
                >
                   <div className={userDataStyles.userDataValue}>
                      <img src={iconKey} />
@@ -49,7 +51,9 @@ function AccountSecurity() {
          {currentForm === 'DataEntryPlaceholder' && currentContactInfo && (
             <DataEntryPlaceholder
                onBack={goBack}
-               onNext={(event, nextStep, info) => void submitDataEntryStep(event, nextStep, info)}
+               onNext={(event, nextStep, info) =>
+                  void submitDataEntryStep(event, nextStep, info)
+               }
                onManageUserData={handleManageUserData}
                currentContactInfo={currentContactInfo}
                newContactData={userData}

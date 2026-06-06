@@ -10,13 +10,17 @@ const HeaderUserAuth = () => {
       void navigate('/auth/');
    };
 
-   return ( 
+   return (
       <div className={styles.headerLoginWrapper}>
          <button onClick={handleAuth}>
-            <img src={iconUserEmpty} className={styles.headerLoginImg} alt="Login" />
+            <img
+               src={iconUserEmpty}
+               className={styles.headerLoginImg}
+               alt="Login"
+            />
          </button>
       </div>
    );
-}
- 
+};
+
 export default HeaderUserAuth;

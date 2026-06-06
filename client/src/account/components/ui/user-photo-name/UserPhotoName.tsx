@@ -1,4 +1,3 @@
-
 import imgUser from '@shared/assets/header/user-photo.jpg';
 import iconArrow from '@shared/assets/icon-arrow-16.svg';
 import styles from './UserPhotoName.module.css';

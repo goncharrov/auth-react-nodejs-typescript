@@ -1,7 +1,10 @@
 import styles from './ContactData.module.css';
 
 import iconArrow from '@shared/assets/icon-arrow-16.svg';
-import type { ContactInformation, ContactInfoConfig } from '@account/accountTypes';
+import type {
+   ContactInformation,
+   ContactInfoConfig,
+} from '@account/accountTypes';
 import type { User } from '@auth/authTypes';
 
 interface ContactDataProps {

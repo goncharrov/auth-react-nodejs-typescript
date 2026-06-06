@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@auth/authContext';
+import { useAuth } from '@auth/useAuth';
 import { accountApi } from '@account/accountApi';
 import { checkContactData } from '@shared/utils/formValidation';
 
@@ -40,7 +40,8 @@ export function useDataEntryFlow() {
    const [currentForm, setCurrentForm] = useState<CurrentForm>('MainForm');
    const [formHistory, setFormHistory] = useState<CurrentForm[]>([]);
    const [step, setStep] = useState<Step>('');
-   const [currentContactInfo, setCurrentContactInfo] = useState<ContactInfoConfig | null>(null);
+   const [currentContactInfo, setCurrentContactInfo] =
+      useState<ContactInfoConfig | null>(null);
    const [userData, setUserData] = useState<UserDataState>(EMPTY_USER_DATA);
 
    const showError = (
@@ -59,13 +60,22 @@ export function useDataEntryFlow() {
 
    const showAxiosError = (error: unknown) => {
       if (axios.isAxiosError(error) && error.response) {
-         showError(null, error.response.data.message, null);
+         const data: unknown = error.response.data;
+         const msg =
+            data !== null &&
+            typeof data === 'object' &&
+            'message' in data &&
+            typeof (data as Record<string, unknown>).message === 'string'
+               ? ((data as Record<string, unknown>).message as string)
+               : null;
+         showError(null, msg, null);
       } else {
          showError(null, getErrorMessage(error), null);
       }
    };
 
-   const closeError = () => setErrorModal((prev) => ({ ...prev, isOpen: false }));
+   const closeError = () =>
+      setErrorModal((prev) => ({ ...prev, isOpen: false }));
 
    const backToMainForm = () => {
       setUserData(EMPTY_USER_DATA);
@@ -75,11 +85,16 @@ export function useDataEntryFlow() {
       setCurrentContactInfo(null);
    };
 
-   const handleManageUserData = (event: React.ChangeEvent<HTMLInputElement>) => {
+   const handleManageUserData = (
+      event: React.ChangeEvent<HTMLInputElement>
+   ) => {
       const value = event.target.value;
-      if (step === 'stepOne') setUserData((prev) => ({ ...prev, valueStepOne: value }));
-      else if (step === 'stepTwo') setUserData((prev) => ({ ...prev, valueStepTwo: value }));
-      else if (step === 'stepThree') setUserData((prev) => ({ ...prev, valueStepThree: value }));
+      if (step === 'stepOne')
+         setUserData((prev) => ({ ...prev, valueStepOne: value }));
+      else if (step === 'stepTwo')
+         setUserData((prev) => ({ ...prev, valueStepTwo: value }));
+      else if (step === 'stepThree')
+         setUserData((prev) => ({ ...prev, valueStepThree: value }));
    };
 
    const openDataEntryForm = async (info: ContactInfoConfig): Promise<void> => {
@@ -111,7 +126,8 @@ export function useDataEntryFlow() {
          }
       } else if (info.type === 'password') {
          setStep('stepOne');
-         if (user) setUserData((prev) => ({ ...prev, currentValue: user.email }));
+         if (user)
+            setUserData((prev) => ({ ...prev, currentValue: user.email }));
       } else if (info.type === 'deleteAccount') {
          setStep('stepOne');
       }
@@ -131,13 +147,20 @@ export function useDataEntryFlow() {
       if (info.type === 'email' || info.type === 'phone') {
          if (step === 'stepOne') {
             if (userData.valueStepOne.trim() === '') {
-               showError('Enter verification code', `Sent to ${userData.currentValue}`, null);
+               showError(
+                  'Enter verification code',
+                  `Sent to ${userData.currentValue}`,
+                  null
+               );
                return;
             }
             try {
-               const result = await accountApi.checkUserVerificationCode(userData.valueStepOne.trim());
+               const result = await accountApi.checkUserVerificationCode(
+                  userData.valueStepOne.trim()
+               );
                if (!result.data.success) {
-                  if (result.data.message) showError(null, result.data.message, null);
+                  if (result.data.message)
+                     showError(null, result.data.message, null);
                   return;
                }
             } catch (error: unknown) {
@@ -145,9 +168,16 @@ export function useDataEntryFlow() {
                return;
             }
          } else if (step === 'stepTwo') {
-            const validation = checkContactData(info.type, userData.valueStepTwo.trim());
+            const validation = checkContactData(
+               info.type,
+               userData.valueStepTwo.trim()
+            );
             if (!validation.isValid) {
-               showError(validation.reason, validation.explanation, validation.example);
+               showError(
+                  validation.reason,
+                  validation.explanation,
+                  validation.example
+               );
                return;
             }
             try {
@@ -156,7 +186,8 @@ export function useDataEntryFlow() {
                   value: validation.value,
                });
                if (!result.data.success) {
-                  if (result.data.message) showError(null, result.data.message, null);
+                  if (result.data.message)
+                     showError(null, result.data.message, null);
                   return;
                }
             } catch (error: unknown) {
@@ -165,7 +196,11 @@ export function useDataEntryFlow() {
             }
          } else if (step === 'stepThree') {
             if (userData.valueStepThree.trim() === '') {
-               showError('Enter verification code', `Sent to ${userData.valueStepTwo}`, null);
+               showError(
+                  'Enter verification code',
+                  `Sent to ${userData.valueStepTwo}`,
+                  null
+               );
                return;
             }
             try {
@@ -175,7 +210,8 @@ export function useDataEntryFlow() {
                   code: userData.valueStepThree.trim(),
                });
                if (!result.data.success) {
-                  if (result.data.message) showError(null, result.data.message, null);
+                  if (result.data.message)
+                     showError(null, result.data.message, null);
                   return;
                }
                if (result.data.user) setUser(result.data.user);
@@ -194,9 +230,12 @@ export function useDataEntryFlow() {
                   return;
                }
                try {
-                  const result = await accountApi.checkUserPassword(userData.valueStepOne);
+                  const result = await accountApi.checkUserPassword(
+                     userData.valueStepOne
+                  );
                   if (!result.data.success) {
-                     if (result.data.message) showError(null, result.data.message, null);
+                     if (result.data.message)
+                        showError(null, result.data.message, null);
                      return;
                   }
                } catch (error: unknown) {
@@ -213,7 +252,8 @@ export function useDataEntryFlow() {
                   if (result.data.success) {
                      setStep('stepTwo');
                   } else {
-                     if (result.data.message) showError(null, result.data.message, null);
+                     if (result.data.message)
+                        showError(null, result.data.message, null);
                      return;
                   }
                } catch (error: unknown) {
@@ -223,13 +263,20 @@ export function useDataEntryFlow() {
             }
          } else if (step === 'stepTwo') {
             if (userData.valueStepTwo.trim() === '') {
-               showError('Enter verification code', `Sent to ${userData.currentValue}`, null);
+               showError(
+                  'Enter verification code',
+                  `Sent to ${userData.currentValue}`,
+                  null
+               );
                return;
             }
             try {
-               const result = await accountApi.checkUserVerificationCode(userData.valueStepTwo.trim());
+               const result = await accountApi.checkUserVerificationCode(
+                  userData.valueStepTwo.trim()
+               );
                if (!result.data.success) {
-                  if (result.data.message) showError(null, result.data.message, null);
+                  if (result.data.message)
+                     showError(null, result.data.message, null);
                   return;
                }
             } catch (error: unknown) {
@@ -242,9 +289,12 @@ export function useDataEntryFlow() {
                return;
             }
             try {
-               const result = await accountApi.writeNewUserPassword(userData.valueStepThree);
+               const result = await accountApi.writeNewUserPassword(
+                  userData.valueStepThree
+               );
                if (!result.data.success) {
-                  if (result.data.message) showError(null, result.data.message, null);
+                  if (result.data.message)
+                     showError(null, result.data.message, null);
                   return;
                }
                backToMainForm();
@@ -261,9 +311,12 @@ export function useDataEntryFlow() {
                return;
             }
             try {
-               const result = await accountApi.deleteUserAccount(userData.valueStepOne);
+               const result = await accountApi.deleteUserAccount(
+                  userData.valueStepOne
+               );
                if (result && !result.data.success) {
-                  if (result.data.message) showError(null, result.data.message, null);
+                  if (result.data.message)
+                     showError(null, result.data.message, null);
                   return;
                }
                await logout();
@@ -292,12 +345,23 @@ export function useDataEntryFlow() {
          return;
       }
 
-      if (currentContactInfo.type === 'email' || currentContactInfo.type === 'phone') {
-         if (nextStep === 'stepOne' || nextStep === 'stepThree' || nextStep === '') {
+      if (
+         currentContactInfo.type === 'email' ||
+         currentContactInfo.type === 'phone'
+      ) {
+         if (
+            nextStep === 'stepOne' ||
+            nextStep === 'stepThree' ||
+            nextStep === ''
+         ) {
             backToMainForm();
             return;
          } else if (nextStep === 'stepTwo') {
-            setUserData((prev) => ({ ...prev, valueStepTwo: '', valueStepThree: '' }));
+            setUserData((prev) => ({
+               ...prev,
+               valueStepTwo: '',
+               valueStepThree: '',
+            }));
             setStep(nextStep);
          }
       } else if (

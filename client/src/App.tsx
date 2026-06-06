@@ -1,5 +1,10 @@
 import { Fragment, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {
+   BrowserRouter as Router,
+   Routes,
+   Route,
+   Navigate,
+} from 'react-router-dom';
 import { initCsrf } from './shared/http/axiosInstance';
 
 import NotFoundPage from '@shared/pages/NotFoundPage';
@@ -14,9 +19,8 @@ import AccountDetails from '@account/pages/AccountDetails';
 import AccountSecurity from '@account/pages/AccountSecurity';
 
 function App() {
-
    useEffect(() => {
-      initCsrf();
+      void initCsrf();
    }, []);
 
    return (

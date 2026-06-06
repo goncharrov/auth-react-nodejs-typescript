@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { useAuth } from '@auth/authContext';
+import { useAuth } from '@auth/useAuth';
 import useClickOutside from '@shared/hooks/useClickOutside';
 
 import imgUser from '@shared/assets/header/user-photo.jpg';
@@ -42,50 +42,55 @@ const HeaderUserAccount = (): React.JSX.Element => {
 
    return (
       <div
-         ref={selectorRef} 
+         ref={selectorRef}
          className={
             isOpen
                ? `${styles.headerUserWrapper} ${styles.active}`
                : styles.headerUserWrapper
-         }     
+         }
       >
-         
-         <button onClick={toggleOpen} className={isOpen ? styles.active : undefined }>
+         <button
+            onClick={toggleOpen}
+            className={isOpen ? styles.active : undefined}
+         >
             <img src={imgUser} className={styles.headerUserImg} alt="Login" />
          </button>
-         
-         <div         
+
+         <div
             className={
                isOpen
                   ? `${styles.headerUserDropdownMenu} ${styles.active}`
                   : styles.headerUserDropdownMenu
-               }
-            >            
+            }
+         >
             <div className={styles.headerUserDropdownMenuData}>
                <img src={imgUser} className={styles.userImg} alt="User photo" />
                <span>{user?.preferredName}</span>
             </div>
             <ul>
-               
                {!isUserAccount && (
-                   <li className={styles.headerUserDropdownMenuList}>
+                  <li className={styles.headerUserDropdownMenuList}>
                      <button type="button" onClick={handleAccount}>
-                        <img src={iconGear} alt="" />Managing user profile
+                        <img src={iconGear} alt="" />
+                        Managing user profile
                      </button>
                   </li>
-               )}              
+               )}
 
                <li className={styles.headerUserDropdownMenuList}>
-                  <button type="button" className={styles.logout} onClick={() => void handleLogout()}>
-                     <img src={iconExit} alt="" />Logout
+                  <button
+                     type="button"
+                     className={styles.logout}
+                     onClick={() => void handleLogout()}
+                  >
+                     <img src={iconExit} alt="" />
+                     Logout
                   </button>
                </li>
-
             </ul>
          </div>
-
       </div>
    );
-}
- 
+};
+
 export default HeaderUserAccount;

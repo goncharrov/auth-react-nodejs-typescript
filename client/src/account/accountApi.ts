@@ -1,11 +1,11 @@
 import api from '@shared/http/axiosInstance';
-import type { User } from '@auth/authTypes'; 
+import type { User } from '@auth/authTypes';
 import type { UserData, ContactType } from '@account/accountTypes';
 
 export interface AccountApiResponce {
    success: boolean;
-   message?: string;   
-} 
+   message?: string;
+}
 
 export interface UserDataResponce extends AccountApiResponce {
    user: User;
@@ -34,29 +34,41 @@ interface WriteNewUserContactDataRequest {
 }
 
 export const accountApi = {
-   saveUserData: (userData: UserData) => 
+   saveUserData: (userData: UserData) =>
       api.post<UserDataResponce>('/account/save-user-data', userData),
 
-   getUserVerificationCode: (context: GetUserVerificationCodeRequest) => 
-      api.post<GetUserVerificationCodeResponse>('/account/get-user-verification-code', context),
+   getUserVerificationCode: (context: GetUserVerificationCodeRequest) =>
+      api.post<GetUserVerificationCodeResponse>(
+         '/account/get-user-verification-code',
+         context
+      ),
 
    checkUserVerificationCode: (code: string) =>
-      api.post<AccountApiResponce>('/account/check-user-verification-code', { code }),
+      api.post<AccountApiResponce>('/account/check-user-verification-code', {
+         code,
+      }),
 
-   checkUserContactData: (context: CheckUserContactDataRequest) => 
+   checkUserContactData: (context: CheckUserContactDataRequest) =>
       api.post<AccountApiResponce>('/account/check-user-contact-data', context),
 
    writeNewUserContactData: (context: WriteNewUserContactDataRequest) =>
-      api.post<UserDataResponce>('/account/write-new-user-contact-data', context),
+      api.post<UserDataResponce>(
+         '/account/write-new-user-contact-data',
+         context
+      ),
 
-   checkUserPassword: (password: string) => 
-      api.post<AccountApiResponce>('/account/check-user-password', { password }),
+   checkUserPassword: (password: string) =>
+      api.post<AccountApiResponce>('/account/check-user-password', {
+         password,
+      }),
 
    writeNewUserPassword: (password: string) =>
-      api.post<AccountApiResponce>('/account/write-new-user-password', { password }),
+      api.post<AccountApiResponce>('/account/write-new-user-password', {
+         password,
+      }),
 
    deleteUserAccount: (password: string) =>
-      api.post<AccountApiResponce>('/account/delete-user-account', { password }),
-
-
-}
+      api.post<AccountApiResponce>('/account/delete-user-account', {
+         password,
+      }),
+};

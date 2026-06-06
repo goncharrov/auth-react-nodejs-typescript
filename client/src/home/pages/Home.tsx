@@ -8,9 +8,9 @@ import Header from '@home/components/header/Header';
 const Home = () => {
    return (
       <Fragment>
-         <Header />         
-      </Fragment>      
+         <Header />
+      </Fragment>
    );
-}
- 
+};
+
 export default Home;

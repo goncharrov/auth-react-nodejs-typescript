@@ -97,7 +97,6 @@ export async function loginWithPassword(req: Request, res: Response) {
          success: true,
          user: userData,
       });
-      
    } catch (error) {
       console.error('Error during login:', error);
       res.status(500).json({
@@ -155,7 +154,6 @@ export async function loginWithCode(req: Request, res: Response) {
          success: true,
          user: userData,
       });
-      
    } catch (error) {
       console.error('Error during login:', error);
       res.status(500).json({
@@ -196,7 +194,6 @@ export async function sendNewLoginCode(req: Request, res: Response) {
          success: true,
          codeIsWritten,
       });
-
    } catch {
       return res.status(500).json({
          success: false,
@@ -316,7 +313,7 @@ export async function getCurrentUser(req: Request, res: Response) {
             preferredName: true,
             birthday: true,
             gender: true,
-            role: true
+            role: true,
          },
       });
 
@@ -331,7 +328,7 @@ export async function getCurrentUser(req: Request, res: Response) {
 
       res.json({
          success: true,
-         user
+         user,
       });
    } catch (error) {
       console.error('Error getting current user:', error);

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@auth/authContext';
+import { useAuth } from '@auth/useAuth';
 
 import LoadingPage from '@shared/pages/LoadingPage';
 

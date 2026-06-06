@@ -20,7 +20,9 @@ const TimeCounter = ({ secondsLeft, onRestart }: TimeCounterProps) => {
       <div className={styles.codeCounter}>
          {secondsLeft > 0 && <span>{`Get a new code in ${formatted}`}</span>}
          {secondsLeft === 0 && (
-            <span className={styles.getNewCode} onClick={handleClick}>Get a new code</span>
+            <span className={styles.getNewCode} onClick={handleClick}>
+               Get a new code
+            </span>
          )}
       </div>
    );

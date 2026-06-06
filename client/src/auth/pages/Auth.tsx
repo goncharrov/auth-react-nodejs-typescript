@@ -5,7 +5,9 @@ import type { ChangeEvent, MouseEvent } from 'react';
 
 type AuthFormName = 'LoginForm' | 'PassForm' | 'CodeForm';
 
-import { useAuth } from '@auth/authContext';
+import { getAxiosErrorMessage } from '@shared/utils/getAxiosErrorMessage';
+
+import { useAuth } from '@auth/useAuth';
 import { authApi } from '@auth/authApi';
 
 import LoadingPage from '@shared/pages/LoadingPage';
@@ -144,7 +146,7 @@ const Auth = () => {
          }
       } catch (err: unknown) {
          if (axios.isAxiosError(err) && err.response) {
-            setError(err.response.data.message);
+            setError(getAxiosErrorMessage(err.response.data));
          }
       } finally {
          setLoading(false);
@@ -174,7 +176,7 @@ const Auth = () => {
 
       setLoading(true);
       try {
-         const result = await authApi.loginWithCode(email.trim(), code.trim());         
+         const result = await authApi.loginWithCode(email.trim(), code.trim());
          if (result.data.success) {
             setUser(result.data.user);
             setTimerActive(false);
@@ -183,7 +185,7 @@ const Auth = () => {
          }
       } catch (err: unknown) {
          if (axios.isAxiosError(err) && err.response) {
-            setError(err.response.data.message);
+            setError(getAxiosErrorMessage(err.response.data));
          }
       } finally {
          setLoading(false);
@@ -222,9 +224,9 @@ const Auth = () => {
             setSecondsLeft(0);
             void navigate('/');
          }
-      } catch (err) {
+      } catch (err: unknown) {
          if (axios.isAxiosError(err) && err.response) {
-            setError(err.response.data.message);
+            setError(getAxiosErrorMessage(err.response.data));
          }
       } finally {
          setLoading(false);

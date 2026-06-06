@@ -7,17 +7,35 @@ export function makeStringCapitalized(str: string): string {
    return normalized.charAt(0).toUpperCase() + normalized.slice(1);
 }
 
-export function getUserData(
-   { email, phone, firstName, lastName, preferredName, birthday, gender, role }: Users
-) {
-   return { email, phone, firstName, lastName, preferredName, birthday, gender, role };
+export function getUserData({
+   email,
+   phone,
+   firstName,
+   lastName,
+   preferredName,
+   birthday,
+   gender,
+   role,
+}: Users) {
+   return {
+      email,
+      phone,
+      firstName,
+      lastName,
+      preferredName,
+      birthday,
+      gender,
+      role,
+   };
 }
 
 function hashCode(code: string): string {
    return createHash('sha256').update(code).digest('hex');
 }
 
-export async function writeUserVerificationCode( userId: number ): Promise<boolean> {
+export async function writeUserVerificationCode(
+   userId: number
+): Promise<boolean> {
    const currentDate = new Date();
    const expireDate = new Date(currentDate.getTime() + 5 * 60 * 1000);
 
@@ -100,9 +118,9 @@ export async function verifyUserVerificationCode(
    return { success: true };
 }
 
-export async function getUserFromSession( userId: number | undefined ): 
-   Promise<{ success: true; user: Users } | { success: false; error: string }> {
-   
+export async function getUserFromSession(
+   userId: number | undefined
+): Promise<{ success: true; user: Users } | { success: false; error: string }> {
    if (!userId) {
       return {
          success: false,

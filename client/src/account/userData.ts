@@ -3,7 +3,11 @@ import iconMail from '@account/assets/icon-mail-32.svg';
 import iconKey from '@account/assets/icon-key-32.svg';
 import iconBasket from '@account/assets/icon-basket-32.svg';
 
-import type { ContactInformation, GenderOption, MonthOption } from '@account/accountTypes';
+import type {
+   ContactInformation,
+   GenderOption,
+   MonthOption,
+} from '@account/accountTypes';
 
 export const contactInformation: ContactInformation = {
    phone: {
@@ -12,7 +16,8 @@ export const contactInformation: ContactInformation = {
       titleStepTwo: 'Enter new phone number',
       titleStepThree: 'Enter code from the message',
       descriptionStepOne: 'Sent to ',
-      descriptionStepTwo: 'Enter a new phone number that will be linked to your account',
+      descriptionStepTwo:
+         'Enter a new phone number that will be linked to your account',
       descriptionStepThree: 'Sent to ',
       inputTypeStepOne: 'text',
       inputTypeStepTwo: 'tel',
@@ -25,7 +30,8 @@ export const contactInformation: ContactInformation = {
       titleStepTwo: 'Enter new e-mail',
       titleStepThree: 'Enter code from the message',
       descriptionStepOne: 'Sent to ',
-      descriptionStepTwo: 'Enter a new e-mail that will be linked to your account',
+      descriptionStepTwo:
+         'Enter a new e-mail that will be linked to your account',
       descriptionStepThree: 'Sent to ',
       inputTypeStepOne: 'text',
       inputTypeStepTwo: 'email',

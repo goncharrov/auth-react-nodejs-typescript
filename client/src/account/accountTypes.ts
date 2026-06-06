@@ -2,7 +2,10 @@ import type { User } from '../auth/authTypes';
 
 // ===== Account API types =====
 
-export type UserData = Pick<User, 'firstName' | 'lastName' | 'preferredName' | 'gender' | 'birthday'>;
+export type UserData = Pick<
+   User,
+   'firstName' | 'lastName' | 'preferredName' | 'gender' | 'birthday'
+>;
 
 // ===== Account Page types =====
 

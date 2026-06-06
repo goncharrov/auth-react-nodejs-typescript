@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-import { useAuth } from '@auth/authContext';
+import { useAuth } from '@auth/useAuth';
 import { contactInformation } from '@account/userData';
 import { useDataEntryFlow } from '@account/hooks/useDataEntryFlow';
 
@@ -60,7 +60,9 @@ function AccountDetails() {
                   </div>
                   <div
                      className={userDataStyles.userDataElement}
-                     onClick={() => void openDataEntryForm(contactInformation.deleteAccount)}
+                     onClick={() =>
+                        void openDataEntryForm(contactInformation.deleteAccount)
+                     }
                   >
                      <div className={userDataStyles.userDataValue}>
                         <img src={iconBasket} />
@@ -74,7 +76,9 @@ function AccountDetails() {
          {currentForm === 'DataEntryPlaceholder' && currentContactInfo && (
             <DataEntryPlaceholder
                onBack={goBack}
-               onNext={(event, nextStep, info) => void submitDataEntryStep(event, nextStep, info)}
+               onNext={(event, nextStep, info) =>
+                  void submitDataEntryStep(event, nextStep, info)
+               }
                onManageUserData={handleManageUserData}
                currentContactInfo={currentContactInfo}
                newContactData={userData}

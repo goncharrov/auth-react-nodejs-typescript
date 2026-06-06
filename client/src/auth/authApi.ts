@@ -1,5 +1,5 @@
 import api from '@shared/http/axiosInstance';
-import type { User, RegUserData } from '../auth/authTypes';
+import type { User, RegUserData } from './authTypes';
 
 export interface AuthApiResponce {
    success: boolean;
@@ -20,24 +20,25 @@ export interface UserLoginCodeResponce extends AuthApiResponce {
 }
 
 export const authApi = {
-   checkEmail: (email: string) => 
+   checkEmail: (email: string) =>
       api.post<CheckEmailResponce>('/auth/check-email', { email }),
 
    loginWithPassword: (email: string, password: string) =>
-      api.post<UserDataResponce>('/auth/login-with-password', { email, password } ),
+      api.post<UserDataResponce>('/auth/login-with-password', {
+         email,
+         password,
+      }),
 
-   loginWithCode: ( email: string, code: string ) => 
+   loginWithCode: (email: string, code: string) =>
       api.post<UserDataResponce>('/auth/login-with-code', { email, code }),
 
-   sendNewLoginCode: (email: string) => 
+   sendNewLoginCode: (email: string) =>
       api.post<UserLoginCodeResponce>('/auth/send-new-login-code', { email }),
 
-   registration: (formData: RegUserData) => 
+   registration: (formData: RegUserData) =>
       api.post<UserDataResponce>('/auth/registration', formData),
 
    getCurrentUser: () => api.get<UserDataResponce>('/auth/user'),
 
    logout: () => api.post<AuthApiResponce>('/auth/logout'),
-
-}
-
+};

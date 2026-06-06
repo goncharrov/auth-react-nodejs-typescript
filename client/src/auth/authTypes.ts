@@ -41,7 +41,7 @@ export interface RegUserData {
    lastName: string;
    email: string;
    password: string;
-};
+}
 
 // ===== Auth API types =====
 

@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@auth/authContext';
+import { useAuth } from '@auth/useAuth';
 import { contactInformation } from '@account/userData';
 import { useDataEntryFlow } from '@account/hooks/useDataEntryFlow';
 
@@ -53,14 +53,15 @@ function AccountMain() {
                      user={user}
                   />
                </div>
-
             </div>
          )}
 
          {currentForm === 'DataEntryPlaceholder' && currentContactInfo && (
             <DataEntryPlaceholder
                onBack={goBack}
-               onNext={(event, nextStep, info) => void submitDataEntryStep(event, nextStep, info)}
+               onNext={(event, nextStep, info) =>
+                  void submitDataEntryStep(event, nextStep, info)
+               }
                onManageUserData={handleManageUserData}
                currentContactInfo={currentContactInfo}
                newContactData={userData}

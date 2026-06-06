@@ -9,7 +9,9 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
       expire: { type: 'timestamp(6)', notNull: true },
    });
 
-   pgm.createIndex('user_sessions', 'expire', { name: 'IDX_user_sessions_expire' });
+   pgm.createIndex('user_sessions', 'expire', {
+      name: 'IDX_user_sessions_expire',
+   });
 }
 
 export async function down(pgm: MigrationBuilder): Promise<void> {
