@@ -8,8 +8,8 @@ import {
 } from 'typeorm';
 import type { Relation } from 'typeorm';
 
-@Entity('auth_users')
-export class Users {
+@Entity({ schema: 'auth', name: 'users' })
+export class User {
    @PrimaryGeneratedColumn()
    id!: number;
 
@@ -48,20 +48,20 @@ export class Users {
    @Column({ type: 'timestamp', name: 'created_at' })
    createdAt!: Date;
 
-   @OneToOne(() => UsersVerificationCode, (verification) => verification.user)
-   verificationCode?: Relation<UsersVerificationCode>;
+   @OneToOne(() => UserVerificationCode, (verification) => verification.user)
+   verificationCode?: Relation<UserVerificationCode>;
 }
 
-@Entity('auth_users_verification_code')
-export class UsersVerificationCode {
+@Entity({ schema: 'auth', name: 'verification_codes' })
+export class UserVerificationCode {
    @PrimaryColumn({ name: 'user_id', type: 'int' })
    userId!: number;
 
-   @OneToOne(() => Users, (user) => user.verificationCode, {
+   @OneToOne(() => User, (user) => user.verificationCode, {
       onDelete: 'RESTRICT',
    })
    @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-   user!: Relation<Users>;
+   user!: Relation<User>;
 
    @Column({ type: 'varchar', length: 128 })
    code!: string;

@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { AppDataSource } from '@config/database.js';
-import { Users } from '@auth/authEntities.js';
+import { User } from '@auth/auth.entity.js';
 import {
    makeStringCapitalized,
    getUserData,
    writeUserVerificationCode,
    verifyUserVerificationCode,
    deleteVerificationCode,
-} from './authLogic.js';
+} from '@auth/auth.logic.js';
 
 // Checking the existence of an email
 
@@ -23,7 +23,7 @@ export async function checkEmail(req: Request, res: Response) {
          });
       }
 
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       const user = await userRepo.findOne({
          where: { email: email.trim().toLowerCase() },
       });
@@ -63,7 +63,7 @@ export async function loginWithPassword(req: Request, res: Response) {
       }
 
       // Search for a user
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       const user = await userRepo.findOne({
          where: { email: email.trim().toLowerCase() },
       });
@@ -121,7 +121,7 @@ export async function loginWithCode(req: Request, res: Response) {
       }
 
       // Search for a user
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       const user = await userRepo.findOne({
          where: { email: email.trim().toLowerCase() },
       });
@@ -176,7 +176,7 @@ export async function sendNewLoginCode(req: Request, res: Response) {
          });
       }
 
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       const user = await userRepo.findOne({
          where: { email: email.trim().toLowerCase() },
       });
@@ -224,7 +224,7 @@ export async function registration(req: Request, res: Response) {
 
    try {
       // Checking email uniqueness
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       const existingUser = await userRepo.findOne({
          where: { email: email.trim().toLowerCase() },
       });
@@ -301,7 +301,7 @@ export async function getCurrentUser(req: Request, res: Response) {
          });
       }
 
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       const user = await userRepo.findOne({
          where: { id: req.session.userId },
          select: {

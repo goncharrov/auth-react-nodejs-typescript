@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 import { AppDataSource } from '../config/database.js';
-import { Users, UsersVerificationCode } from '@auth/authEntities.js';
+import { User, UserVerificationCode } from '@auth/auth.entity.js';
 
 export function makeStringCapitalized(str: string): string {
    const normalized = str.trim().toLowerCase();
@@ -16,7 +16,7 @@ export function getUserData({
    birthday,
    gender,
    role,
-}: Users) {
+}: User) {
    return {
       email,
       phone,
@@ -47,7 +47,7 @@ export async function writeUserVerificationCode(
 
    try {
       const verificationRepo = AppDataSource.getRepository(
-         UsersVerificationCode
+         UserVerificationCode
       );
 
       const loginEmailCode = await verificationRepo.findOne({
@@ -78,7 +78,7 @@ export async function writeUserVerificationCode(
 }
 
 export async function deleteVerificationCode(userId: number): Promise<void> {
-   const verificationRepo = AppDataSource.getRepository(UsersVerificationCode);
+   const verificationRepo = AppDataSource.getRepository(UserVerificationCode);
    await verificationRepo.delete({ userId });
 }
 
@@ -86,7 +86,7 @@ export async function verifyUserVerificationCode(
    userId: number,
    code: string
 ): Promise<{ success: true } | { success: false; error: string }> {
-   const verificationRepo = AppDataSource.getRepository(UsersVerificationCode);
+   const verificationRepo = AppDataSource.getRepository(UserVerificationCode);
 
    // Search verification code
    const verificationCode = await verificationRepo.findOne({
@@ -120,7 +120,7 @@ export async function verifyUserVerificationCode(
 
 export async function getUserFromSession(
    userId: number | undefined
-): Promise<{ success: true; user: Users } | { success: false; error: string }> {
+): Promise<{ success: true; user: User } | { success: false; error: string }> {
    if (!userId) {
       return {
          success: false,
@@ -128,7 +128,7 @@ export async function getUserFromSession(
       };
    }
 
-   const userRepo = AppDataSource.getRepository(Users);
+   const userRepo = AppDataSource.getRepository(User);
    const user = await userRepo.findOne({ where: { id: userId } });
 
    if (!user) {

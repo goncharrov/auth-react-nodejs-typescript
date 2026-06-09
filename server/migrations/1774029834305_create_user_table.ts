@@ -3,8 +3,13 @@ import type { MigrationBuilder, ColumnDefinitions } from 'node-pg-migrate';
 export const shorthands: ColumnDefinitions = {};
 
 export async function up(pgm: MigrationBuilder): Promise<void> {
+   // Создаем схему
+   pgm.createSchema('auth', { ifNotExists: true });
+   
    // Таблица auth_users
-   pgm.createTable('auth_users', {
+   pgm.createTable(
+      { schema: 'auth', name: 'users' }, 
+      {
       id: {
          type: 'serial',
          primaryKey: true,
@@ -54,15 +59,17 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
    });
 
    // Уникальные индексы для email и phone
-   pgm.addConstraint('auth_users', 'auth_users_email_unique', {
+   pgm.addConstraint({ schema: 'auth', name: 'users' }, 'auth_users_email_unique', {
       unique: ['email'],
    });
-   pgm.addConstraint('auth_users', 'auth_users_phone_unique', {
+   pgm.addConstraint({ schema: 'auth', name: 'users' }, 'auth_users_phone_unique', {
       unique: ['phone'],
    });
 
    // Таблица auth_users_verification_code
-   pgm.createTable('auth_users_verification_code', {
+   pgm.createTable(
+      { schema: 'auth', name: 'verification_codes' }, 
+      {
       user_id: {
          type: 'int',
          primaryKey: true,
@@ -79,13 +86,13 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 
    // FK: auth_users_verification_code.user_id -> auth_users.id
    pgm.addConstraint(
-      'auth_users_verification_code',
-      'auth_users_verification_code_user_id_fkey',
+     { schema: 'auth', name: 'verification_codes' },
+      'verification_codes_user_id_fkey',
       {
          foreignKeys: [
             {
                columns: ['user_id'],
-               references: 'auth_users(id)',
+               references: { schema: 'auth', name: 'users' },
                onDelete: 'RESTRICT',
             },
          ],
@@ -94,9 +101,12 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 }
 
 export async function down(pgm: MigrationBuilder): Promise<void> {
-   // Сначала дропаем таблицу, зависящую от auth_users
-   pgm.dropTable('auth_users_verification_code');
+   // Сначала дропаем таблицу, зависящую от auth.users
+   pgm.dropTable({ schema: 'auth', name: 'verification_codes' });
 
-   // Затем основную таблицу auth_users
-   pgm.dropTable('auth_users');
+   // Затем основную таблицу auth.users
+   pgm.dropTable({ schema: 'auth', name: 'users' });
+
+   // Удаляем схему
+  pgm.dropSchema('auth', { ifExists: true });
 }

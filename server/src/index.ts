@@ -32,7 +32,7 @@ async function startServer(): Promise<void> {
    try {
       // Инициализация подключения к БД
       await AppDataSource.initialize();
-      console.log('✅ Подключение к PostgreSQL установлено');
+      console.log('Подключение к PostgreSQL установлено');
 
       // Middleware
       app.use(setupSessionMiddleware());

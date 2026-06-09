@@ -17,7 +17,8 @@ export function setupSessionMiddleware(): RequestHandler {
    return session({
       store: new PgSession({
          pool: pgPool,
-         tableName: 'user_sessions',
+         schemaName: 'auth',
+         tableName: 'sessions',
       }),
       secret: process.env.SESSION_SECRET ?? 'dev-secret-change-me',
       resave: false,

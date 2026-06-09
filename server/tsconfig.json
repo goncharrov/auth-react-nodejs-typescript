@@ -25,12 +25,9 @@
     "skipLibCheck": true,
 
     "paths": {
+      "@config/*":   ["./src/config/*"],
       "@auth/*": ["./src/app_auth/*"],
       "@user_account/*": ["./src/app_user_account/*"],
-      "@vehicles/*": ["./src/app_vehicles/*"],
-      "@vendors/*":  ["./src/app_vendors/*"],
-      "@locations/*":  ["./src/app_locations/*"],
-      "@config/*":   ["./src/config/*"]
     },
 
   },

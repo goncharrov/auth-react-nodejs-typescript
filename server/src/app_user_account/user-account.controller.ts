@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { AppDataSource } from '@config/database.js';
-import { Users } from '@auth/authEntities.js';
+import { User } from '@auth/auth.entity.js';
 
 import {
    makeStringCapitalized,
@@ -10,7 +10,7 @@ import {
    verifyUserVerificationCode,
    deleteVerificationCode,
    getUserFromSession,
-} from '@auth/authLogic.js';
+} from '@auth/auth.logic.js';
 
 // -------------------------- saveUserData --------------------------
 
@@ -72,7 +72,7 @@ export async function saveUserData(req: Request, res: Response) {
          user.birthday = userBirthday;
       }
 
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       await userRepo.save(user);
 
       const userData = getUserData(user);
@@ -222,7 +222,7 @@ export async function checkUserContactData(req: Request, res: Response) {
          });
       }
 
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       const existingUser = await userRepo.findOne({
          where:
             type === 'email'
@@ -291,7 +291,7 @@ export async function writeNewUserContactData(req: Request, res: Response) {
          });
       }
 
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       const existingUser = await userRepo.findOne({
          where:
             type === 'email'
@@ -419,7 +419,7 @@ export async function writeNewUserPassword(req: Request, res: Response) {
 
       user.password = hashedPassword;
 
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       await userRepo.save(user);
 
       return res.status(200).json({
@@ -467,7 +467,7 @@ export async function deleteUserAccount(req: Request, res: Response) {
 
       await deleteVerificationCode(user.id);
 
-      const userRepo = AppDataSource.getRepository(Users);
+      const userRepo = AppDataSource.getRepository(User);
       await userRepo.remove(user);
 
       req.session.destroy((err) => {
