@@ -2,7 +2,7 @@ import { Input, InputPassword } from '@account/components/ui/input/Input';
 import { BlueButton } from '@account/components/ui/button/Button';
 
 import iconArrow from '@shared/assets/icon-arrow-32.svg';
-import styles from './DataEntryPlaceholder.module.css';
+import styles from './DataEntryStep.module.css';
 
 import type {
    Step,
@@ -10,7 +10,7 @@ import type {
    UserDataState,
 } from '@account/accountTypes';
 
-interface DataEntryPlaceholderProps {
+interface DataEntryStepProps {
    onBack: (nextStep: Step | '') => void;
    onNext: (
       event: React.SubmitEvent<HTMLFormElement> | React.MouseEvent,
@@ -23,14 +23,14 @@ interface DataEntryPlaceholderProps {
    step: Step;
 }
 
-function DataEntryPlaceholder({
+function DataEntryStep({
    onBack,
    onNext,
    onManageUserData,
    currentContactInfo,
    newContactData,
    step,
-}: DataEntryPlaceholderProps) {
+}: DataEntryStepProps) {
    const isContactData =
       currentContactInfo.type === 'email' ||
       currentContactInfo.type === 'phone';
@@ -166,4 +166,4 @@ function DataEntryPlaceholder({
    );
 }
 
-export default DataEntryPlaceholder;
+export default DataEntryStep;

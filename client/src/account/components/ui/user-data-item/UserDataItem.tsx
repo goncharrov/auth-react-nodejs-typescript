@@ -1,13 +1,13 @@
-import styles from './UserDataElements.module.css';
+import styles from './UserDataItem.module.css';
 
 import iconArrow from '@shared/assets/icon-arrow-16.svg';
 import iconRental from '@account/assets/icon-rental-32.svg';
 
-type RentalDataProps = {
+type UserDataItemProps = {
    typeEditBtn: string;
 };
 
-const RentalData = ({ typeEditBtn }: RentalDataProps) => {
+const UserDataItem = ({ typeEditBtn }: UserDataItemProps) => {
    return (
       <div className={styles.userDataElement}>
          <div className={styles.userDataValue}>
@@ -25,4 +25,4 @@ const RentalData = ({ typeEditBtn }: RentalDataProps) => {
    );
 };
 
-export default RentalData;
+export default UserDataItem;

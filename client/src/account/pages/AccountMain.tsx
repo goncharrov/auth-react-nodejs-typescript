@@ -5,10 +5,10 @@ import { useAuth } from '@auth/useAuth';
 import { contactInformation } from '@account/userData';
 import { useDataEntryFlow } from '@account/hooks/useDataEntryFlow';
 
-import { UserPhotoName } from '@account/components/ui/user-photo-name/UserPhotoName';
+import { UserTitle } from '@account/components/ui/user-title/UserTitle';
 import ContactData from '@account/components/ui/user-data-contacts/ContactData';
-import DataEntryPlaceholder from '@account/components/data-entry-placeholder/DataEntryPlaceholder';
-import ErrorModal from '@account/components/ui/error-modal/ErrorModal';
+import DataEntryPlaceholder from '@account/components/data-entry-step/DataEntryStep';
+import ErrorModal from '@shared/components/error-modal/ErrorModal';
 
 import styles from './Account.module.css';
 
@@ -36,7 +36,7 @@ function AccountMain() {
          {currentForm === 'MainForm' && (
             <div className={styles.section}>
                <div className={styles.sectionGroup}>
-                  <UserPhotoName
+                  <UserTitle
                      name={user.preferredName ?? ''}
                      onClick={() => void navigate('/account/details/')}
                   />
@@ -56,7 +56,7 @@ function AccountMain() {
             </div>
          )}
 
-         {currentForm === 'DataEntryPlaceholder' && currentContactInfo && (
+         {currentForm === 'DataEntryStep' && currentContactInfo && (
             <DataEntryPlaceholder
                onBack={goBack}
                onNext={(event, nextStep, info) =>

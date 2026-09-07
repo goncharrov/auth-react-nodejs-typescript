@@ -3,13 +3,13 @@ import { Fragment } from 'react';
 import { contactInformation } from '../userData';
 import { useDataEntryFlow } from '@account/hooks/useDataEntryFlow';
 
-import DataEntryPlaceholder from '@account/components/data-entry-placeholder/DataEntryPlaceholder';
-import ErrorModal from '@account/components/ui/error-modal/ErrorModal';
+import DataEntryPlaceholder from '@account/components/data-entry-step/DataEntryStep';
+import ErrorModal from '@shared/components/error-modal/ErrorModal';
 
 import iconArrow from '@shared/assets/icon-arrow-16.svg';
 import iconKey from '@account/assets/icon-key-32.svg';
 
-import userDataStyles from '@account/components/ui/user-data-elements/UserDataElements.module.css';
+import userDataStyles from '@account/components/ui/user-data-item/UserDataItem.module.css';
 import styles from './Account.module.css';
 
 function AccountSecurity() {
@@ -48,7 +48,7 @@ function AccountSecurity() {
             </div>
          )}
 
-         {currentForm === 'DataEntryPlaceholder' && currentContactInfo && (
+         {currentForm === 'DataEntryStep' && currentContactInfo && (
             <DataEntryPlaceholder
                onBack={goBack}
                onNext={(event, nextStep, info) =>

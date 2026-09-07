@@ -3,11 +3,7 @@ import iconMail from '@account/assets/icon-mail-32.svg';
 import iconKey from '@account/assets/icon-key-32.svg';
 import iconBasket from '@account/assets/icon-basket-32.svg';
 
-import type {
-   ContactInformation,
-   GenderOption,
-   MonthOption,
-} from '@account/accountTypes';
+import type { ContactInformation, SelectorOption} from '@account/accountTypes';
 
 export const contactInformation: ContactInformation = {
    phone: {
@@ -60,12 +56,12 @@ export const contactInformation: ContactInformation = {
    },
 };
 
-export const genders: GenderOption[] = [
+export const genders: SelectorOption[] = [
    { label: 'Male', id: 1 },
    { label: 'Female', id: 2 },
 ];
 
-export const months: MonthOption[] = [
+export const months: SelectorOption[] = [
    { label: 'Jan.', id: 0 },
    { label: 'Feb.', id: 1 },
    { label: 'Mar.', id: 2 },

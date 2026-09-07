@@ -2,17 +2,14 @@ import type { User } from '../auth/authTypes';
 
 // ===== Account API types =====
 
-export type UserData = Pick<
-   User,
-   'firstName' | 'lastName' | 'preferredName' | 'gender' | 'birthday'
->;
+export type UserData = Pick<User, 'firstName' | 'lastName' | 'preferredName' | 'gender' | 'birthday'>;
 
 // ===== Account Page types =====
 
 export type ContactType = 'email' | 'phone' | 'password' | 'deleteAccount';
 
 export type Step = '' | 'stepOne' | 'stepTwo' | 'stepThree';
-export type CurrentForm = 'MainForm' | 'DataEntryPlaceholder';
+export type CurrentForm = 'MainForm' | 'DataEntryStep';
 
 export interface UserDataState {
    currentValue: string;
@@ -50,10 +47,10 @@ export interface AccountOutletContext {
    currentContactInfo: ContactInfoConfig;
    currentForm: CurrentForm;
    step: Step;
-   goToDataEntryPlaceholderForm: (
+   goToDataEntryStepForm: (
       currentContactInfo: ContactInfoConfig
    ) => Promise<void> | void;
-   manageDataEntryPlaceholderForm: (
+   manageDataEntryStepForm: (
       event: React.SubmitEvent<HTMLFormElement> | React.MouseEvent,
       nextStep: Step | 'finish',
       currentContactInfo: ContactInfoConfig
@@ -62,22 +59,14 @@ export interface AccountOutletContext {
    handleManageUserData: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface ErrorModalState {
-   isOpen: boolean;
-   title: string;
-   reason: string | null;
-   explanation: string | null;
-   example: string | null;
-}
-
 // ===== Selector options =====
 
-export interface GenderOption {
+export type SelectorOption = {
+   id: string | number;
    label: string;
-   id: number;
-}
+};
 
-export interface MonthOption {
-   label: string;
-   id: number; // 0–11
-}
+export type FormData = Omit<User, 'email' | 'phone' | 'gender' | 'birthday'> & {
+   gender: SelectorOption | null;
+   birthday: Date | null;
+};

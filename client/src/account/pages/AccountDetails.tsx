@@ -4,15 +4,15 @@ import { useAuth } from '@auth/useAuth';
 import { contactInformation } from '@account/userData';
 import { useDataEntryFlow } from '@account/hooks/useDataEntryFlow';
 
-import { UserPhotoNameLarge } from '@account/components/ui/user-photo-name/UserPhotoName';
+import { UserTitleLarge } from '@account/components/ui/user-title/UserTitle';
 import ContactData from '@account/components/ui/user-data-contacts/ContactData';
-import UserData from '@account/components/personal-data/PersonalData';
-import DataEntryPlaceholder from '@account/components/data-entry-placeholder/DataEntryPlaceholder';
-import ErrorModal from '@account/components/ui/error-modal/ErrorModal';
+import PersonalData from '@account/components/personal-data/PersonalData';
+import DataEntryPlaceholder from '@account/components/data-entry-step/DataEntryStep';
+import ErrorModal from '@shared/components/error-modal/ErrorModal';
 
 import iconBasket from '@account/assets/icon-basket-32.svg';
 
-import userDataStyles from '@account/components/ui/user-data-elements/UserDataElements.module.css';
+import userDataStyles from '@account/components/ui/user-data-item/UserDataItem.module.css';
 import styles from './Account.module.css';
 
 function AccountDetails() {
@@ -38,8 +38,8 @@ function AccountDetails() {
          {currentForm === 'MainForm' && (
             <div className={styles.section}>
                <div className={styles.sectionGroup}>
-                  <UserPhotoNameLarge name={user.preferredName ?? ''} />
-                  <UserData user={user} setUser={setUser} />
+                  <UserTitleLarge name={user.preferredName ?? ''} />
+                  <PersonalData user={user} setUser={setUser} />
                </div>
 
                <div className={styles.sectionGroup}>
@@ -73,7 +73,7 @@ function AccountDetails() {
             </div>
          )}
 
-         {currentForm === 'DataEntryPlaceholder' && currentContactInfo && (
+         {currentForm === 'DataEntryStep' && currentContactInfo && (
             <DataEntryPlaceholder
                onBack={goBack}
                onNext={(event, nextStep, info) =>

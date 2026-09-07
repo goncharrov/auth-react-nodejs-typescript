@@ -1,13 +1,13 @@
 import imgUser from '@shared/assets/header/user-photo.jpg';
 import iconArrow from '@shared/assets/icon-arrow-16.svg';
-import styles from './UserPhotoName.module.css';
+import styles from './UserTitle.module.css';
 
-type UserPhotoNameProps = {
+type UserTitleProps = {
    name: string;
    onClick?: () => void;
 };
 
-const UserPhotoName = ({ name, onClick }: UserPhotoNameProps) => {
+const UserTitle = ({ name, onClick }: UserTitleProps) => {
    return (
       <div className={styles.userPhotoName} onClick={onClick}>
          <div className={styles.userPhotoNameContent}>
@@ -19,7 +19,7 @@ const UserPhotoName = ({ name, onClick }: UserPhotoNameProps) => {
    );
 };
 
-const UserPhotoNameLarge = ({ name }: UserPhotoNameProps) => {
+const UserTitleLarge = ({ name }: UserTitleProps) => {
    return (
       <div className={styles.userPhotoNameLarge}>
          <div className={styles.userPhotoNameContent}>
@@ -34,4 +34,4 @@ const UserPhotoNameLarge = ({ name }: UserPhotoNameProps) => {
    );
 };
 
-export { UserPhotoName, UserPhotoNameLarge };
+export { UserTitle, UserTitleLarge };

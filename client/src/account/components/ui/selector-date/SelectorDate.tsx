@@ -1,11 +1,9 @@
 import { Fragment, useMemo, useState } from 'react';
 
-import styles from './SelectorDate.module.css';
-
 import SelectorDateItem from '@account/components/ui/selector-date/SelectorDateItem';
-
 import { months } from '@account/userData';
-import type { MonthOption } from '@account/accountTypes';
+
+import styles from './SelectorDate.module.css';
 
 type Option = {
    id: number;
@@ -20,7 +18,7 @@ type SelectorDateProps = {
 
 type OptionsState = {
    days: Option[];
-   months: MonthOption[];
+   months: Option[];
    years: Option[];
 };
 
@@ -66,10 +64,10 @@ function SelectorDate({ label, dateValue, onDateChange }: SelectorDateProps) {
          if (!isNaN($date.getTime())) {
             setDay($date.getDate());
             const monthOption = months.find(
-               (item: MonthOption) => item.id === $date.getMonth()
+               (item) => item.id === $date.getMonth()
             );
             if (monthOption) {
-               setMonth(monthOption.id);
+               setMonth(Number(monthOption.id));
             }
             setYear($date.getFullYear());
          }
@@ -93,7 +91,7 @@ function SelectorDate({ label, dateValue, onDateChange }: SelectorDateProps) {
             : baseDateForLists;
       return {
          days: getListDaysInMonth(daysSourceDate),
-         months,
+         months: months.map((item) => ({ id: Number(item.id), label: item.label })),
          years: yearsOptions,
       };
    }, [year, month, baseDateForLists, yearsOptions]);

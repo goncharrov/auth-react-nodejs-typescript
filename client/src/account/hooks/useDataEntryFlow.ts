@@ -1,22 +1,17 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@auth/useAuth';
 import { accountApi } from '@account/accountApi';
 import { checkContactData } from '@shared/utils/formValidation';
+import { useErrorModal } from '@shared/hooks/useErrorModal';
 
 import type {
    Step,
    CurrentForm,
    UserDataState,
-   ErrorModalState,
    ContactInfoConfig,
 } from '@account/accountTypes';
-
-function getErrorMessage(err: unknown): string {
-   return err instanceof Error ? err.message : String(err);
-}
 
 const EMPTY_USER_DATA: UserDataState = {
    currentValue: '',
@@ -29,13 +24,8 @@ export function useDataEntryFlow() {
    const { user, setUser, logout } = useAuth();
    const navigate = useNavigate();
 
-   const [errorModal, setErrorModal] = useState<ErrorModalState>({
-      isOpen: false,
-      title: 'Error',
-      reason: '',
-      explanation: '',
-      example: '',
-   });
+   const { errorModal, showError, showAxiosError, closeError } =
+      useErrorModal();
 
    const [currentForm, setCurrentForm] = useState<CurrentForm>('MainForm');
    const [formHistory, setFormHistory] = useState<CurrentForm[]>([]);
@@ -43,39 +33,6 @@ export function useDataEntryFlow() {
    const [currentContactInfo, setCurrentContactInfo] =
       useState<ContactInfoConfig | null>(null);
    const [userData, setUserData] = useState<UserDataState>(EMPTY_USER_DATA);
-
-   const showError = (
-      reason: string | null,
-      explanation: string | null,
-      example: string | null
-   ) => {
-      setErrorModal({
-         isOpen: true,
-         title: 'Error',
-         reason: reason ?? '',
-         explanation: explanation ?? '',
-         example: example ?? '',
-      });
-   };
-
-   const showAxiosError = (error: unknown) => {
-      if (axios.isAxiosError(error) && error.response) {
-         const data: unknown = error.response.data;
-         const msg =
-            data !== null &&
-            typeof data === 'object' &&
-            'message' in data &&
-            typeof (data as Record<string, unknown>).message === 'string'
-               ? ((data as Record<string, unknown>).message as string)
-               : null;
-         showError(null, msg, null);
-      } else {
-         showError(null, getErrorMessage(error), null);
-      }
-   };
-
-   const closeError = () =>
-      setErrorModal((prev) => ({ ...prev, isOpen: false }));
 
    const backToMainForm = () => {
       setUserData(EMPTY_USER_DATA);
@@ -134,7 +91,7 @@ export function useDataEntryFlow() {
 
       setCurrentContactInfo(info);
       setFormHistory((prev) => [...prev, currentForm]);
-      setCurrentForm('DataEntryPlaceholder');
+      setCurrentForm('DataEntryStep');
    };
 
    const submitDataEntryStep = async (
@@ -335,7 +292,7 @@ export function useDataEntryFlow() {
       if (nextStep !== 'finish') {
          setStep(nextStep);
          setFormHistory((prev) => [...prev, currentForm]);
-         setCurrentForm('DataEntryPlaceholder');
+         setCurrentForm('DataEntryStep');
       }
    };
 
