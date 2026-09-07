@@ -5,7 +5,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { setupSessionMiddleware } from './middleware/session.js';
 import { csrfProtection } from './middleware/csrf.js';
+import { errorHandler } from '@middleware/errorHandler.js';
+
 import { AppDataSource } from './config/database.js';
+
 import routes from './core/routes.js';
 
 dotenv.config();
@@ -40,6 +43,9 @@ async function startServer(): Promise<void> {
 
       // Маршруты
       app.use('/api', routes);
+
+      // Ошибки (после маршрутов)
+      app.use(errorHandler);
 
       // Ошибки (после маршрутов)
       app.use(
